@@ -1,0 +1,4 @@
+playwright==1.41.0
+pytest==8.0.0
+pytest-playwright==0.4.4
+python-dotenv==1.0.1  # 환경 변수 관리용
