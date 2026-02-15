@@ -4,7 +4,7 @@ class BasePage:
     def __init__(self, page: Page, request_context=None):
         self.page = page
         self.request = request_context
-        self.base_url = "https://erp-sut.vercel.app/" # 대상 시스템 URL
+        self.base_url = "https://erp-sut.vercel.app" # 대상 시스템 URL
         size = page.viewport_size
         if size['width'] != 1280 or size['height'] != 720:
             raise RuntimeError(
@@ -14,7 +14,7 @@ class BasePage:
 
     def navigate(self, path: str = ""):
         """페이지 이동"""
-        self.page.goto(f"{self.base_url}")
+        self.page.goto(f"{self.base_url}{path}")
         
     def do_click(self, selector: str, timeout: int = 5000):
         self.page.wait_for_selector(selector, state="visible", timeout=timeout)

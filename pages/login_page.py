@@ -11,7 +11,7 @@ class LoginPage(BasePage):
 
     def login_to_system(self, email, password):
         """로그인 액션 플로우"""
-        self.navigate("/login")
+        self.navigate()
         self.do_fill(self.email_fld, email)
         self.do_fill(self.password_fld, password)
         self.do_click(self.login_btn)
