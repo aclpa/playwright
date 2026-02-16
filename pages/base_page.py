@@ -1,10 +1,11 @@
 from playwright.sync_api import Page
+import os
 
 class BasePage:
     def __init__(self, page: Page, request_context=None):
         self.page = page
         self.request = request_context
-        self.base_url = "https://erp-sut.vercel.app/" # 대상 시스템 URL
+        self.base_url = os.getenv("BASE_URL", "https://erp-sut.vercel.app/")
         size = page.viewport_size
         if size['width'] != 1280 or size['height'] != 720:
             raise RuntimeError(
