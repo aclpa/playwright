@@ -11,6 +11,7 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+repomix_packaging/
 
 # --- [Playwright & Test Reports] ---
 test-results/

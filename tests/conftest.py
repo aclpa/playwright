@@ -1,8 +1,9 @@
-# tests/conftest.py
 import pytest
+from dotenv import load_dotenv
 
+load_dotenv()
 @pytest.fixture(scope="session")
-def browser_context_args(browser_context_args):
+def browser_fix(browser_context_args):
     """
     Playwright의 기본 브라우저 컨텍스트 설정을 오버라이드합니다.
     모든 테스트는 이 설정을 공통으로 상속받습니다.
