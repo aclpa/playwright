@@ -12,3 +12,4 @@ def get_auth_data(email: str, password: str) -> dict:
     )
     res.raise_for_status() # 에러 발생 시 즉시 중단
     return res.json()
+
