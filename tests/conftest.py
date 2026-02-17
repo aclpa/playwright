@@ -1,8 +1,7 @@
 import pytest
-from pathlib import Path
-from playwright.sync_api import sync_playwright
-from utils.api_client import get_api_token
+from dotenv import load_dotenv
 
+load_dotenv()
 @pytest.fixture(scope="session")
 def browser_fix(browser_context_args):
     """
