@@ -1,7 +1,7 @@
 윈도우
 .\venv\Scripts\Activate.ps1
 맥
-source venv/bin/activate
+source .venv/bin/activate
 가상환경 활성화
 
 repomix .
