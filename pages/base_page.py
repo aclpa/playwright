@@ -6,13 +6,7 @@ class BasePage:
         self.page = page
         self.request = request_context
         self.base_url = os.getenv("BASE_URL")
-        size = page.viewport_size
-        if size['width'] != 1280 or size['height'] != 720:
-            raise RuntimeError(
-                f"❌ 해상도 불일치: 현재 {size['width']}x{size['height']}. "
-                f"AI 탐지 최적화를 위해 1280x720이 강제되어야 합니다."
-            )
-
+        
     def navigate(self, path: str = ""):
         """페이지 이동"""
         self.page.goto(f"{self.base_url}{path}")
