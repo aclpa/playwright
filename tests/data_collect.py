@@ -1,34 +1,47 @@
-# tests/test_data_collection.py
+# tests/data_collect.py (수정본)
+import os
+import time
 from pages.login_page import LoginPage
 from utils.labeler import AutoLabeler
-from playwright.sync_api import expect
-import os
 
-admin_email = os.getenv("ADMIN_EMAIL")
-admin_pass = os.getenv("ADMIN_PASS")
-
-def test_collect_erp_data(page):
-    """API 고속 로그인을 활용해 ERP 전역을 돌며 AI 학습 데이터를 수집합니다."""
-    # 1. API 로그인으로 빠르게 대시보드 진입
+def test_mass_data_collection(page):
+    """ERP의 여러 메뉴를 순회하며 100장 이상의 데이터를 자동으로 수집합니다."""
+    # 1. 로그인
     login_page = LoginPage(page)
-    # 동작 수행
-    login_page.api_login(admin_email, admin_pass)
-    # 라벨러 준비
+    login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     labeler = AutoLabeler()
-    
-    # 3. 데이터 스크래핑 시작
-    print("\n🚀 데이터 수집 파이프라인 가동을 시작합니다...")
-    
-    # [수집 포인트 1] 대시보드 화면
-    labeler.collect(page, prefix="dashboard")
-    
-    # [수집 포인트 2] 프로젝트 목록 화면
     base_url = os.getenv("BASE_URL")
-    page.goto(f"{base_url}/#/projects")
-    labeler.collect(page, prefix="projects_list")
-    
-    # [수집 포인트 3] 설정 화면 등 필요한 곳을 계속 추가하세요!
-    # page.goto(f"{base_url}/#/settings")
-    # labeler.collect(page, prefix="settings")
-    
-    print("✅ 데이터 수집 완료! datasets 폴더를 확인하세요.")
+
+    # 2. 수집할 경로 리스트 (ERP 메뉴들을 여기에 추가하세요)
+    target_paths = [
+        "/#/dashboard",
+        "/#/projects",
+        "/#/sprints",
+        "/#/issues",
+        "/#/kanban",
+        "/#/teams",
+        "/#/resources"
+    ]
+
+    print("\n🚀 윈도우 환경 데이터 수집 스프린트 시작...")
+
+    for path in target_paths:
+        print(f"📸 {path} 화면 수집 중...")
+        page.goto(f"{base_url}{path}")
+        
+        # 한 페이지에서 여러 상태를 수집하기 위해 약간의 대기
+        page.wait_for_load_state("networkidle")
+        time.sleep(1)
+        
+        # [데이터 뻥튀기 전략]
+        # 1. 일반 상태 수집
+        labeler.collect(page, prefix=f"win_{path.strip('/#')}_normal")
+        
+        # 2. 브라우저 크기를 살짝 바꿔서 수집 (AI가 크기 변화에 강해짐)
+        page.set_viewport_size({"width": 1024, "height": 768})
+        labeler.collect(page, prefix=f"win_{path.strip('/#')}_small")
+        
+        # 원래 크기로 복구
+        page.set_viewport_size({"width": 1280, "height": 720})
+
+    print(f"✅ 수집 완료! 'datasets/images/train' 폴더를 확인하세요.")
