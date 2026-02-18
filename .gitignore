@@ -26,13 +26,11 @@ storage_state.json
 # 1. AI 모델 파일(*.pt)은 기본적으로 다 무시합니다.
 *.pt
 *.onnx
-
+datasets/
 # 2. 학습 로그 폴더도 다 무시합니다 (용량 폭탄 방지)
 runs/
-
 !**/best.pt
 # .gitignore
-
 # YOLO 캐시 파일 무시
 *.cache
 
