@@ -21,17 +21,23 @@ blob-report/
 playwright/.local-browsers/
 storage_state.json
 
-# --- [스크린샷 수집 (테스트 실패 시 자동 생성)] ---
-datasets/raw_screenshots/
+# .gitignore
 
-# --- [YOLO 관련 (나중에 필요)] ---
-# 지금은 생성되지 않지만 미리 제외 설정
-runs/
+# 1. AI 모델 파일(*.pt)은 기본적으로 다 무시합니다.
 *.pt
 *.onnx
-datasets/labeled/
-datasets/augmented/
 
+# 2. 학습 로그 폴더도 다 무시합니다 (용량 폭탄 방지)
+runs/
+
+!**/best.pt
+# .gitignore
+
+# YOLO 캐시 파일 무시
+*.cache
+
+# (아까 설정 안 했다면) 학습 로그 폴더 무시
+runs/
 # --- [IDEs & OS] ---
 .vscode/
 .idea/

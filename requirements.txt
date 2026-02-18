@@ -2,3 +2,4 @@ playwright==1.58.0
 pytest==8.0.0
 pytest-playwright==0.7.2
 python-dotenv==1.0.1  # 환경 변수 관리용
+ultralytics==8.0.0  # YOLOv8 모델을 위한 라이브러리

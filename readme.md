@@ -61,3 +61,8 @@ pip install -r requirements.txt
 
 새로운 Playwright 버전에 맞는 구동 브라우저 새로 다운로드 (가장 중요!)
 playwright install
+
+최신 YOLO 패키지 설치
+pip install ultralytics
+데이터 학습
+yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=50 imgsz=640 device=mps
