@@ -1,4 +1,19 @@
-playwright==1.41.0
-pytest==8.0.0
-pytest-playwright==0.4.4
-python-dotenv==1.0.1  # 환경 변수 관리용
+# PyTorch GPU 버전을 우선적으로 찾도록 인덱스 URL 지정
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# 🧠 AI & Vision (객체 탐지 및 텍스트 인식)
+torch
+torchvision
+torchaudio
+ultralytics
+easyocr
+opencv-python
+
+# 🤖 Test Automation & Web (E2E 테스트 및 API 통신)
+pytest
+pytest-playwright
+playwright
+requests
+
+# 🛠️ Utilities (환경 변수 등)
+python-dotenv

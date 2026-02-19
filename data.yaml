@@ -1,0 +1,10 @@
+# data.yaml
+# 학습용 이미지와 라벨이 있는 경로 설정 (루트 폴더 기준 상대 경로)
+train: datasets/images/train
+val: datasets/images/train  # 지금은 데이터가 적으니 검증용(val)도 동일하게 씁니다.
+
+# 클래스 개수
+nc: 3
+
+# 클래스 이름 (우리가 파이썬 코드에서 0, 1, 2로 맵핑한 순서 그대로)
+names: ['button', 'input', 'link']
