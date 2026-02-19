@@ -25,7 +25,7 @@ def test_api_login(page):# TC3 API로그인 테스트
     # 1. 페이지 객체 초기화
     login_page = LoginPage(page)
     # 2. 동작 수행
-    login_page.api_login_and_bypass(admin_email, admin_pass)
+    login_page.api_login(admin_email, admin_pass)
     # 3. 결과 검증
     expect(page.get_by_role("main").get_by_text("Dash board")).to_be_visible()
 
