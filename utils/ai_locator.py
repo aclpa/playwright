@@ -26,7 +26,7 @@ class AILocator:
         """YOLO로 객체를 찾고 OCR로 텍스트를 대조하여 클릭합니다."""
         
         # 1. 스크린샷 캡처 (절대 경로)
-        screenshot_path = Path("inference_temp.png").resolve()
+        screenshot_path = Path("runs/detect/predict/inference_temp.png").resolve()
         page.screenshot(path=str(screenshot_path))
         
         save_dir = Path("runs/detect").resolve()
@@ -39,8 +39,8 @@ class AILocator:
             save=True,
             project=str(save_dir),
             name="predict",
-            exist_ok=True,
-            verbose=False # OCR 로그에 집중하기 위해 YOLO 로그는 끕니다
+            exist_ok=True, 
+            verbose=False # yolo 로그
         )
         
         target_id = self.class_map.get(target_class)

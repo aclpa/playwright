@@ -8,7 +8,7 @@ def test_ai_navigation(page):
     """
     YOLO와 OCR이 결합된 하이브리드 AI로 메뉴를 찾아 클릭하는 테스트
     """
-    # 1. 고속 로그인 (기존 방식 활용)
+    # 1. api 로그인
     login_page = LoginPage(page)
     admin_email = os.getenv("ADMIN_EMAIL")
     admin_pass = os.getenv("ADMIN_PASS")
@@ -20,8 +20,7 @@ def test_ai_navigation(page):
     page.wait_for_load_state("networkidle")
     time.sleep(2) # 화면 렌더링 안정화 대기
 
-    # 2. 하이브리드 AI 로케이터 가동
-    # 모델 경로가 다르다면 AILocator("경로/best.pt")로 수정하세요
+    # AI 로케이터
     ai = AILocator()
 
     # 3. AI에게 특정 텍스트를 가진 요소 클릭 지시
@@ -33,7 +32,7 @@ def test_ai_navigation(page):
     
     page.wait_for_timeout(2000) # 클릭 후 화면 전환 대기
     
-    # 원래 대시보드로 복귀 (페이지가 넘어갔을 경우 대비)
+    # 원래 대시보드로 복귀
     page.go_back()
     page.wait_for_load_state("networkidle")
     time.sleep(1)

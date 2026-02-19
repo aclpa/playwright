@@ -11,7 +11,7 @@ def test_mass_data_collection(page):
     labeler = AutoLabeler()
     base_url = os.getenv("BASE_URL")
 
-    # 2. 수집할 경로 리스트 (ERP 메뉴들을 여기에 추가하세요)
+    # 2. 수집할 경로 리스트
     target_paths = [
         "/#/dashboard",
         "/#/projects",
@@ -34,7 +34,7 @@ def test_mass_data_collection(page):
         # 1. 일반 상태 수집
         labeler.collect(page, prefix=f"win_{path.strip('/#')}_normal")
         
-        # 2. 브라우저 크기를 살짝 바꿔서 수집 (AI가 크기 변화에 강해짐)
+        # 2. 브라우저 크기를 살짝 바꿔서 수집
         page.set_viewport_size({"width": 1024, "height": 768})
         labeler.collect(page, prefix=f"win_{path.strip('/#')}_small")
 

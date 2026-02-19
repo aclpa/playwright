@@ -13,7 +13,6 @@ dist/
 build/
 repomix_packaging/
 repomix-output.xml
-
 # --- [Playwright & Test Reports] ---
 test-results/
 playwright-report/
@@ -21,20 +20,16 @@ blob-report/
 playwright/.local-browsers/
 storage_state.json
 
-# .gitignore
-
-# 1. AI 모델 파일(*.pt)은 기본적으로 다 무시합니다.
+# --- [AI 모델 파일(*.pt)] ---
 *.pt
 *.onnx
 datasets/
-# 2. 학습 로그 폴더도 다 무시합니다 (용량 폭탄 방지)
+# --- 학습 로그 ---
 runs/
 !**/best.pt
-# .gitignore
-# YOLO 캐시 파일 무시
+# --- YOLO 캐시 파일 무시 ---
 *.cache
 
-# (아까 설정 안 했다면) 학습 로그 폴더 무시
 runs/
 # --- [IDEs & OS] ---
 .vscode/
