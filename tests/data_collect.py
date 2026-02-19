@@ -1,6 +1,5 @@
 # tests/data_collect.py (수정본)
 import os
-import time
 from pages.login_page import LoginPage
 from utils.labeler import AutoLabeler
 
@@ -19,8 +18,7 @@ def test_mass_data_collection(page):
         "/#/sprints",
         "/#/issues",
         "/#/kanban",
-        "/#/teams",
-        "/#/resources"
+        "/#/teams"
     ]
 
     print("\n🚀 윈도우 환경 데이터 수집 스프린트 시작...")
@@ -31,7 +29,6 @@ def test_mass_data_collection(page):
         
         # 한 페이지에서 여러 상태를 수집하기 위해 약간의 대기
         page.wait_for_load_state("networkidle")
-        time.sleep(1)
         
         # [데이터 뻥튀기 전략]
         # 1. 일반 상태 수집
@@ -40,7 +37,7 @@ def test_mass_data_collection(page):
         # 2. 브라우저 크기를 살짝 바꿔서 수집 (AI가 크기 변화에 강해짐)
         page.set_viewport_size({"width": 1024, "height": 768})
         labeler.collect(page, prefix=f"win_{path.strip('/#')}_small")
-        
+
         # 원래 크기로 복구
         page.set_viewport_size({"width": 1280, "height": 720})
 

@@ -1,7 +1,6 @@
 # utils/labeler.py
 import os
 from datetime import datetime
-from playwright.sync_api import Page
 
 class AutoLabeler:
     def __init__(self, base_dir="datasets"):
@@ -13,9 +12,20 @@ class AutoLabeler:
         
         # AI가 인식할 클래스 ID 매핑 (0: 버튼, 1: 입력창, 2: 링크)
         self.class_map = {
-            "button": 0,
-            "input": 1,
-            "a": 2
+            # --- 0: 버튼 (Button) ---
+            "button": 0,           # 기본 HTML 버튼
+            ".q-btn": 0,           # Quasar 버튼 (상단 햄버거 메뉴, 돋보기, 파란 버튼 등)
+            "[role='button']": 0,  # 버튼 역할을 하는 기타 요소
+            
+            # --- 1: 입력창 (Input) ---
+            "input": 1,            # 기본 HTML 입력창
+            "textarea": 1,         # 여러 줄 입력창
+            ".q-field__input": 1,  # Quasar 입력창
+            
+            # --- 2: 링크/메뉴 (Link) ---
+            "a": 2,                # 기본 HTML 링크
+            ".q-item": 2,          # Quasar 사이드바 메뉴 항목들 (Projects, Sprints 등)
+            ".q-tab": 2            # Quasar 탭 메뉴 (있는 경우 대비)
         }
 
     def collect(self, page: Page, prefix: str = "page"):

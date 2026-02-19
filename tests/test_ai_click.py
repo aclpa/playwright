@@ -1,36 +1,46 @@
 # tests/test_ai_click.py
-from pages.login_page import LoginPage
-from utils.ai_locator import AILocator
 import os
 import time
+from pages.login_page import LoginPage
+from utils.ai_locator import AILocator
 
 def test_ai_navigation(page):
     """
-    기존 Selector 방식이 아닌, AI 시각 인식으로 메뉴를 클릭하여 이동하는 테스트
+    YOLO와 OCR이 결합된 하이브리드 AI로 메뉴를 찾아 클릭하는 테스트
     """
     # 1. 고속 로그인 (기존 방식 활용)
     login_page = LoginPage(page)
     admin_email = os.getenv("ADMIN_EMAIL")
     admin_pass = os.getenv("ADMIN_PASS")
-    login_page.api_login(admin_email, admin_pass)
     
+    print("\n🌐 시스템 로그인 중...")
+    login_page.api_login(admin_email, admin_pass)
+
     # 대시보드 로딩 대기
     page.wait_for_load_state("networkidle")
-    time.sleep(2) # AI가 화면을 볼 시간을 줍니다
-    
-    # 2. AI 로케이터 가동
+    time.sleep(2) # 화면 렌더링 안정화 대기
+
+    # 2. 하이브리드 AI 로케이터 가동
     # 모델 경로가 다르다면 AILocator("경로/best.pt")로 수정하세요
     ai = AILocator()
+
+    # 3. AI에게 특정 텍스트를 가진 요소 클릭 지시
+    print("\n🚀 AI가 화면을 스캔하여 타겟을 찾습니다...")
     
-    # 3. 'link' (메뉴 링크) 찾아서 클릭 시도
-    # 대시보드에는 보통 '프로젝트', '설정' 같은 링크들이 있습니다.
-    # index=0 은 첫 번째 링크를 누르겠다는 뜻
-    print("\n🚀 AI가 화면을 보고 버튼을 클릭합니다...")
-    ai.click_element(page, target_class="button", index=0)
+    # [미션 1] "NEW PROJECT" 버튼 찾아 누르기
+    print("\n--- [미션 1] 새 프로젝트 버튼 클릭 ---")
+    ai.click_by_text(page, target_text="NEW PROJECT", target_class="button", conf=0.01)
     
-    # 4. 화면이 바뀌었는지 확인
-    time.sleep(2)
-    print(f"결과 URL: {page.url}")
+    page.wait_for_timeout(2000) # 클릭 후 화면 전환 대기
     
-    # 검증용 스크린샷
-    page.screenshot(path="ai_click_result.png")
+    # 원래 대시보드로 복귀 (페이지가 넘어갔을 경우 대비)
+    page.go_back()
+    page.wait_for_load_state("networkidle")
+    time.sleep(1)
+
+    # [미션 2] 왼쪽 메뉴에서 "Projects" 찾아 누르기
+    print("\n--- [미션 2] 왼쪽 메뉴 클릭 ---")
+    ai.click_by_text(page, target_text="Projects", target_class="link", conf=0.01)
+    
+    page.wait_for_timeout(2000)
+    print("✅ 모든 AI 네비게이션 테스트 완료!")
