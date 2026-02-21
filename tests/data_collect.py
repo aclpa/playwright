@@ -13,6 +13,7 @@ def test_mass_data_collection(page):
 
     # 2. 수집할 경로 리스트
     target_paths = [
+        "/#/auth/login",
         "/#/dashboard",
         "/#/projects",
         "/#/sprints",
