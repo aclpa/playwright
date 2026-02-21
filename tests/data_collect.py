@@ -18,27 +18,32 @@ def test_mass_data_collection(page):
         "/#/sprints",
         "/#/issues",
         "/#/kanban",
-        "/#/teams"
+        "/#/teams",
+        "/#/resources/servers",
+        "/#/resources/services",
+        "/#/profile",
+        "/#/resources/deployments"
     ]
 
     print("\n🚀 윈도우 환경 데이터 수집 스프린트 시작...")
 
     for path in target_paths:
-        print(f"📸 {path} 화면 수집 중...")
+        prefix = path.replace("/", "_").replace("#", "")  # ← 수정
+    
         page.goto(f"{base_url}{path}")
-        
-        # 한 페이지에서 여러 상태를 수집하기 위해 약간의 대기
         page.wait_for_load_state("networkidle")
-        
-        # [데이터 뻥튀기 전략]
-        # 1. 일반 상태 수집
-        labeler.collect(page, prefix=f"win_{path.strip('/#')}_normal")
-        
-        # 2. 브라우저 크기를 살짝 바꿔서 수집
-        page.set_viewport_size({"width": 1024, "height": 768})
-        labeler.collect(page, prefix=f"win_{path.strip('/#')}_small")
+    
+        labeler.collect(page, prefix=f"win_{prefix}_normal")
+    
+        page.set_viewport_size({"width": 1280, "height": 768})
+        labeler.collect(page, prefix=f"win_{prefix}_small")
+    
+        page.set_viewport_size({"width": 1000, "height": 500})
+        labeler.collect(page, prefix=f"win_{prefix}_mobile")
 
-        # 원래 크기로 복구
+        page.set_viewport_size({"width": 1920, "height": 1080})
+        labeler.collect(page, prefix=f"win_{prefix}_large")
+
         page.set_viewport_size({"width": 1280, "height": 720})
 
     print(f"✅ 수집 완료! 'datasets/images/train' 폴더를 확인하세요.")

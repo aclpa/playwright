@@ -8,10 +8,11 @@ repomix .
 repomix . -o repomix_packaging\repomix-output.xml
 llm 패키징
 
-python -m pytest tests/test_auth.py --headed --slowmo 500 -s
+python3 -m pytest tests/test_auth.py --headed --slowmo 500 -s
+
 
 환경설정
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 최신 YOLO 패키지 설치
 pip install ultralytics
