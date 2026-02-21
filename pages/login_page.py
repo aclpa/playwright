@@ -1,4 +1,5 @@
 from .base_page import BasePage
+
 class LoginPage(BasePage):
 
     def login_to_system(self, email, password):

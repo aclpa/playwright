@@ -13,7 +13,6 @@ opencv-python
 pytest
 pytest-playwright
 playwright
-requests
 
 # 🛠️ Utilities (환경 변수 등)
 python-dotenv
