@@ -10,11 +10,7 @@ llm 패키징
 
 python -m pytest tests/test_auth.py --headed --slowmo 500 -s
 
-맥 환경설정
-pip install -r requirements.txt
-playwright install
-
-변경된 요구사항에 맞춰 패키지 버전 업데이트
+환경설정
 pip install -r requirements.txt
 
 최신 YOLO 패키지 설치

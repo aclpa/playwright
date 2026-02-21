@@ -16,3 +16,5 @@ playwright
 
 # 🛠️ Utilities (환경 변수 등)
 python-dotenv
+
+ultralytics
