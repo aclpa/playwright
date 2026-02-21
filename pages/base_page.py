@@ -1,27 +1,16 @@
-from playwright.sync_api import Page
 import os
 from utils.api_client import get_auth_data
 import json
 
+
 class BasePage:
-    def __init__(self, page: Page, request_context=None):
+    def __init__(self, page):
         self.page = page
-        self.request = request_context
         self.base_url = os.getenv("BASE_URL")
-        
     def navigate(self, path: str = ""):
         """페이지 이동"""
         self.page.goto(f"{self.base_url}{path}")
         
-    def do_click(self, selector: str, timeout: int = 5000):
-        self.page.wait_for_selector(selector, state="visible", timeout=timeout)
-        self.page.click(selector)
-
-    def do_fill(self, selector: str, value: str, timeout: int = 5000):
-        """공통 입력 메서드"""
-        self.page.wait_for_selector(selector, state="visible", timeout=timeout)
-        self.page.fill(selector, value)
-
     def do_api_login(self, email, password):
         """API 토큰을 발급받아 로컬 스토리지에 주입하고 대시보드로 직행합니다."""
         # 1. API로 토큰 가져오기

@@ -4,6 +4,7 @@ import cv2
 import easyocr
 from ultralytics import YOLO
 from pathlib import Path
+import warnings
 
 class AILocator:
     def __init__(self, model_path="runs/detect/train/weights/best.pt"):
@@ -22,14 +23,16 @@ class AILocator:
         # 3. 클래스 매핑 (data.yaml 기준)
         self.class_map = {'button': 0, 'input': 1, 'link': 2}
 
+        warnings.filterwarnings("ignore", message=".*pin_memory.*")
+
     def click_by_text(self, page, target_text, target_class="button", conf=0.01):
         """YOLO로 객체를 찾고 OCR로 텍스트를 대조하여 클릭합니다."""
         
         # 1. 스크린샷 캡처 (절대 경로)
-        screenshot_path = Path("runs/detect/predict/inference_temp.png").resolve()
-        page.screenshot(path=str(screenshot_path))
+        screenshot_path = Path("runs/detect/predict/inference_temp.png").resolve() 
+        page.screenshot(path=str(screenshot_path)) 
         
-        save_dir = Path("runs/detect").resolve()
+        save_dir = Path("runs/detect").resolve() 
         
         # 2. YOLO 추론 (해당 화면에서 객체들 찾기)
         results = self.model.predict(

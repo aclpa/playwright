@@ -1,7 +1,7 @@
 # utils/labeler.py
 import os
 from datetime import datetime
-from matplotlib.dviread import Page
+from playwright.sync_api import Page
 
 class AutoLabeler:
     def __init__(self, base_dir="datasets"):
