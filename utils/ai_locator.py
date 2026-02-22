@@ -23,7 +23,7 @@ class AILocator:
 
         warnings.filterwarnings("ignore", message=".*pin_memory.*")
 
-    def click_by_text(self, page, target_text, target_class="button", conf=0.01):
+    def click_by_text(self, page, target_text, target_class="button", conf=0.8):
         """YOLO로 객체를 찾고 OCR로 텍스트를 대조하여 클릭합니다."""
         
         # 1. 스크린샷 캡처 (절대 경로)
