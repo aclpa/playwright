@@ -17,4 +17,4 @@ pip3 install -r requirements.txt
 최신 YOLO 패키지 설치
 pip install ultralytics
 데이터 학습
-yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=100 imgsz=1024 device=cpu exist_ok=True
+yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=100 imgsz=1024 device=0 batch=4 workers=0 exist_ok=True
