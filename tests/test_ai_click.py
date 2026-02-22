@@ -1,9 +1,7 @@
-# tests/test_ai_click.py
-import os
-import time
-from pages.login_page import LoginPage
-from utils.ai_locator import AILocator
 from pages.ai_page import aipage
+from playwright.sync_api import expect
+import re
+import os
 
 admin_email = os.getenv("ADMIN_EMAIL")
 admin_pass = os.getenv("ADMIN_PASS")
@@ -12,8 +10,9 @@ base_url = os.getenv("BASE_URL")
 def test_ai_login(page):
 
     ai_page = aipage(page)
-    print("\n🌐 시스템 로그인 중...")
     ai_page.login_successful_ai(admin_email, admin_pass)
+    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
+
 
 
 # def test_ai_navigation(page):

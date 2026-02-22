@@ -60,13 +60,20 @@ class AILocator:
                 
                 # 이미지 크롭 (잘라내기)
                 cropped_img = img[y1:y2, x1:x2]
+
+                # --- 💡 추가: OCR 시력 교정 (이미지 전처리) ---
+                # 1. 컬러를 흑백으로 변환 (글자와 배경의 대비를 극대화)
+                gray_img = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2GRAY)
+                
+                # 2. 이미지를 2배로 확대 (작은 글씨 뭉개짐 방지)
+                enlarged_img = cv2.resize(gray_img, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
                 
                 # 노이즈(너무 작은 박스) 무시
-                if cropped_img.shape[0] < 5 or cropped_img.shape[1] < 5:
+                if enlarged_img.shape[0] < 5 or enlarged_img.shape[1] < 5:
                     continue
 
                 # 4. OCR 텍스트 추출
-                ocr_result = self.reader.readtext(cropped_img, detail=0)
+                ocr_result = self.reader.readtext(enlarged_img, detail=0)
                 extracted_text = " ".join(ocr_result).upper().replace(" ", "")
                 compare_text = target_text.upper().replace(" ", "")
                 
