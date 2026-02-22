@@ -25,7 +25,11 @@ class AutoLabeler:
             # --- 2: 링크/메뉴 (Link) ---
             "a": 2,                # 기본 HTML 링크
             ".q-item": 2,          # Quasar 사이드바 메뉴 항목들 (Projects, Sprints 등)
-            ".q-tab": 2            # Quasar 탭 메뉴 (있는 경우 대비)
+            ".q-tab": 2,            # Quasar 탭 메뉴 (있는 경우 대비)
+
+            # --- 3: 아바타 (Avatar) ---
+            ".q-header .q-btn--round": 3,  # 상단바(Header) 안에 있는 둥근 버튼만!
+            ".q-header .q-avatar": 3       # 상단바(Header) 안에 있는 아바타만!
         }
 
     def collect(self, page: Page, prefix: str = "page"):

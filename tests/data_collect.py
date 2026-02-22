@@ -47,4 +47,21 @@ def test_mass_data_collection(page):
 
         page.set_viewport_size({"width": 1280, "height": 720})
 
+    print("\n📸 드롭다운 메뉴 특별 수집 시작...")
+    # 1. 대시보드로 이동
+    page.goto(f"{base_url}/#/dashboard")
+    page.wait_for_load_state("networkidle")
+
+    # 2. 우측 상단 아바타(프로필) 버튼 클릭해서 메뉴 펼치기
+    # (DOM 로케이터를 이용해 확실하게 엽니다)
+    page.locator("//button[.//div[contains(@class, 'q-avatar')]]").click()
+    page.wait_for_timeout(500) # 애니메이션이 펼쳐질 때까지 0.5초 대기
+
+    # 3. 메뉴가 펼쳐진 상태에서 찰칵!
+    labeler.collect(page, prefix="win_profile_dropdown")
+    
+    # 4. (선택) 창 크기를 줄여서 한 번 더 찰칵!
+    page.set_viewport_size({"width": 1000, "height": 700})
+    labeler.collect(page, prefix="win_profile_dropdown_small")
+
     print(f"✅ 수집 완료! 'datasets/images/train' 폴더를 확인하세요.")

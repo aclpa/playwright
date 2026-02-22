@@ -1,5 +1,6 @@
 from pages.ai_page import aipage
 from playwright.sync_api import expect
+from pages.login_page import LoginPage
 import re
 import os
 
@@ -7,12 +8,20 @@ admin_email = os.getenv("ADMIN_EMAIL")
 admin_pass = os.getenv("ADMIN_PASS")
 base_url = os.getenv("BASE_URL")   
 
-def test_ai_login(page):
-
+def test_ai(page):
     ai_page = aipage(page)
-    ai_page.login_successful_ai(admin_email, admin_pass)
-    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
+    login_page = LoginPage(page)
+    login_page.navigate()
+    ai_page.login_successful_ai(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
+    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=3000)
 
+def test_ai_logout(page):   
+    ai_page = aipage(page)
+    login_page = LoginPage(page)
+    login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
+    login_page.navigate("#/dashboard")
+    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
+    ai_page.logout_ai()
 
 
 # def test_ai_navigation(page):
