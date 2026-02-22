@@ -13,9 +13,9 @@ class AutoLabeler:
         # AI가 인식할 클래스 ID 매핑 (0: 버튼, 1: 입력창, 2: 링크)
         self.class_map = {
             # --- 0: 버튼 (Button) ---
-            "button": 0,           # 기본 HTML 버튼
-            ".q-btn": 0,           # Quasar 버튼 (상단 햄버거 메뉴, 돋보기, 파란 버튼 등)
-            "[role='button']": 0,  # 버튼 역할을 하는 기타 요소
+            ".q-btn:not(header .q-btn)": 0,           
+            "[role='button']:not(header [role='button'])": 0,  
+            "button:not(header button)": 0,  # 버튼 역할을 하는 기타 요소
             
             # --- 1: 입력창 (Input) ---
             "input": 1,            # 기본 HTML 입력창
