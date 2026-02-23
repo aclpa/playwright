@@ -1,0 +1,11 @@
+from .base_page import BasePage
+
+class ProjectPage(BasePage):
+
+    def create_project(self, project_name, project_key):
+        self.page.locator('button:has-text("New Project")').click()
+        self.page.locator("input[type='text'][aria-label='프로젝트 이름 *']").fill(project_name)
+        self.page.locator("input[type='text'][aria-label='프로젝트 키 *']").fill(project_key)
+        self.page.locator("input[role=combobox][aria-label='Team *']").click()
+        self.page.locator("//span[contains(text(), '팀 테스트')]").click()
+        self.page.locator('button:has-text("Create")').click()
