@@ -5,7 +5,7 @@ from pathlib import Path
 import warnings
 
 class AILocator:
-    def __init__(self, model_path="runs/detect/train/weights/best.pt"):
+    def __init__(self, model_path="utils/best.pt"):
         # 1. 모델 경로 검증 및 로드
         self.model_path = Path(model_path).resolve()
         if not self.model_path.exists():
