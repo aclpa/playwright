@@ -51,7 +51,7 @@ def test_logout(page): #TC4 로그아웃 테스트
         login_page.navigate("#/dashboard")
         expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
         dashboard_page.user_menu()
-        # dashboard_page.logout()
+        dashboard_page.logout()
         expect(page.get_by_text("프로젝트 관리 & 배포 통합 시스템")).to_be_visible(timeout=3000)
 
     except AssertionError:
