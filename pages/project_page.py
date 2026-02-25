@@ -9,3 +9,6 @@ class ProjectPage(BasePage):
         self.page.locator("input[role=combobox][aria-label='Team *']").click()
         self.page.locator("//span[contains(text(), '팀 테스트')]").click()
         self.page.locator('button:has-text("Create")').click()
+        self.page.locator(f'div:text-is("{project_key}")').click()
+        self.page.locator('button:has-text("Delete")').click()
+        self.page.locator('button:has-text("Delete")').nth(1).click()
