@@ -19,7 +19,7 @@ class AILocator:
         self.reader = easyocr.Reader(['en', 'ko'], gpu=True)
         
         # 3. 클래스 매핑 (data.yaml 기준)
-        self.class_map = {'button': 0, 'input': 1, 'link': 2, 'avatar': 3}
+        self.class_map = {'button': 0, 'input': 1, 'link': 2, 'avatar': 3, 'label': 4}
 
         warnings.filterwarnings("ignore", message=".*pin_memory.*")
 

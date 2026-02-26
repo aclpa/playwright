@@ -23,7 +23,13 @@ def test_ai_logout(page):
     expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
     ai_page.logout_ai()
 
-
+def test_ai_project(page):
+    ai_page = aipage(page)
+    login_page = LoginPage(page)
+    login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
+    login_page.navigate("#/projects")
+    ai_page.project_ai()
+    
 # def test_ai_navigation(page):
 #     """
 #     YOLO와 OCR이 결합된 하이브리드 AI로 메뉴를 찾아 클릭하는 테스트

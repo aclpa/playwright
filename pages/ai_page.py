@@ -17,3 +17,9 @@ class aipage(BasePage):
         ai.click_by_text(self.page, target_text="AD", target_class="avatar", conf=0.5)
         ai.click_by_text(self.page, target_text="Logout", target_class="link", conf=0.5, exact_match=True)
         
+    
+    def project_ai(self):
+        ai = AILocator()
+        ai.click_by_text(self.page, target_text="NEW PROJECT", target_class="button", conf=0.5)
+        ai.click_by_text(self.page, target_text="이름", target_class="input", conf=0.5)
+        ai.click_by_text(self.page, target_text="Team", target_class="label", conf=0.5)
