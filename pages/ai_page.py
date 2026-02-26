@@ -22,4 +22,4 @@ class aipage(BasePage):
         ai = AILocator()
         ai.click_by_text(self.page, target_text="NEW PROJECT", target_class="button", conf=0.5)
         ai.click_by_text(self.page, target_text="이름", target_class="input", conf=0.5)
-        ai.click_by_text(self.page, target_text="Team", target_class="label", conf=0.5)
+        ai.click_by_text(self.page, target_text="Team", target_class="q-select", conf=0.5)

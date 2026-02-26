@@ -15,21 +15,25 @@ class AutoLabeler:
             # --- 0: 버튼 (Button) ---
             ".q-btn:not(header .q-btn)": 0,           
             "[role='button']:not(header [role='button'])": 0,  
-            "button:not(header button)": 0,  # 버튼 역할을 하는 기타 요소
+            "button:not(header button)": 0,  
             
-            # --- 1: 입력창 (Input) ---
-            "input": 1,            # 기본 HTML 입력창
-            "textarea": 1,         # 여러 줄 입력창
-            ".q-field__input": 1,  # Quasar 입력창
+            # --- 1: 입력창 (Input) 💡 [수정됨] 드롭다운 안의 가짜 input 무시! ---
+            "input:not(.q-select input)": 1,            
+            "textarea": 1,         
+            ".q-field__input:not(.q-select .q-field__input)": 1,  
             
             # --- 2: 링크/메뉴 (Link) ---
-            "a": 2,                # 기본 HTML 링크
-            ".q-item": 2,          # Quasar 사이드바 메뉴 항목들 (Projects, Sprints 등)
-            ".q-tab": 2,            # Quasar 탭 메뉴 (있는 경우 대비)
+            "a": 2,                
+            ".q-item": 2,          
+            ".q-tab": 2,            
 
             # --- 3: 아바타 (Avatar) ---
-            ".q-header .q-btn--round": 3,  # 상단바(Header) 안에 있는 둥근 버튼만!
-            ".q-header .q-avatar": 3       # 상단바(Header) 안에 있는 아바타만!
+            ".q-header .q-btn--round": 3,  
+            ".q-header .q-avatar": 3,       
+
+            # --- 4 : 드롭다운 (Select) ---
+            ".q-select": 4,        
+            "[role='combobox']": 4 
         }
 
     def collect(self, page: Page, prefix: str = "page"):

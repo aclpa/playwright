@@ -11,8 +11,8 @@ def test_mass_data_collection(page):
     labeler = AutoLabeler()
     base_url = os.getenv("BASE_URL")
 
-    # 2. 수집할 경로 리스트
-    # target_paths = [
+   
+    # target_paths = [ #2. 수집할 경로 리스트
     #     "/#/auth/login",
     #     "/#/dashboard",
     #     "/#/projects",
@@ -64,13 +64,37 @@ def test_mass_data_collection(page):
     # page.set_viewport_size({"width": 1000, "height": 700})
     # labeler.collect(page, prefix="win_profile_dropdown_small")
 
-    page.goto(f"{base_url}/#/profile")
+    page.goto(f"{base_url}/#/projects")
 
-    page.locator('button:has-text("Edit Profile")').click()
-    labeler.collect(page, prefix="win_edit_profile")
+    page.locator('button:has-text("New Project")').click()
+    labeler.collect(page, prefix="win_new_project")
     page.set_viewport_size({"width": 1080, "height": 720})
-    labeler.collect(page, prefix="win_edit_profile_small")
+    labeler.collect(page, prefix="win_new_project_small")
     page.set_viewport_size({"width": 800, "height": 1200})
-    labeler.collect(page, prefix="win_edit_profile_mobile")
+    labeler.collect(page, prefix="win_new_project_mobile")
+
+    page.goto(f"{base_url}/#/Issues")
+    page.locator('button:has-text("New Issue")').click()
+    labeler.collect(page, prefix="win_new_issue")
+    page.set_viewport_size({"width": 1080, "height": 720})
+    labeler.collect(page, prefix="win_new_issue_small")
+    page.set_viewport_size({"width": 800, "height": 1200})
+    labeler.collect(page, prefix="win_new_issue_mobile")
+
+    page.goto(f"{base_url}/#/Teams")
+    page.locator('button:has-text("New Team")').click()
+    labeler.collect(page, prefix="win_new_team")
+    page.set_viewport_size({"width": 1080, "height": 720})
+    labeler.collect(page, prefix="win_new_team_small")
+    page.set_viewport_size({"width": 800, "height": 1200})
+    labeler.collect(page, prefix="win_new_team_mobile")
+
+    page.goto(f"{base_url}/#/Sprints")
+    page.locator('button:has-text("New Sprint")').click()
+    labeler.collect(page, prefix="win_new_sprint")
+    page.set_viewport_size({"width": 1080, "height": 720})
+    labeler.collect(page, prefix="win_new_sprint_small")
+    page.set_viewport_size({"width": 800, "height": 1200})
+    labeler.collect(page, prefix="win_new_sprint_mobile")
     
     print(f"✅ 수집 완료! 'datasets/images/train' 폴더를 확인하세요.")

@@ -3,4 +3,4 @@ val: datasets/images/train
 # 클래스 개수
 nc: 5
 # 클래스 이름
-names: ['button', 'input', 'link', 'avatar', 'label']
+names: ['button', 'input', 'link', 'avatar','q-select']
