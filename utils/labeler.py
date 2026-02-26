@@ -13,19 +13,24 @@ class AutoLabeler:
         # AI가 인식할 클래스 ID 매핑 (0: 버튼, 1: 입력창, 2: 링크)
         self.class_map = {
             # --- 0: 버튼 (Button) ---
-            ".q-btn:not(header .q-btn)": 0,           
-            "[role='button']:not(header [role='button'])": 0,  
-            "button:not(header button)": 0,  
+            # 💡 [핵심] a 태그나 input 태그라도 '버튼 역할'을 하면 무조건 0번으로 강제!
+            ".q-btn:not(.q-header .q-btn)": 0,           
+            "[role='button']:not(.q-header [role='button'])": 0,  
+            "button:not(.q-header button)": 0,
+            "input[type='submit']": 0,    # 추가: submit 타입의 input은 버튼!
+            "input[type='button']": 0,    # 추가: button 타입의 input은 버튼!
             
-            # --- 1: 입력창 (Input) 💡 [수정됨] 드롭다운 안의 가짜 input 무시! ---
-            "input:not(.q-select input)": 1,            
+            # --- 1: 입력창 (Input) ---
+            # 💡 [핵심] 위에서 버튼으로 뺀 submit/button 타입은 입력창에서 제외!
+            "input:not([type='submit']):not([type='button']):not(.q-select input)": 1,            
             "textarea": 1,         
             ".q-field__input:not(.q-select .q-field__input)": 1,  
             
             # --- 2: 링크/메뉴 (Link) ---
-            "a": 2,                
+            # 💡 [핵심] a 태그 중에서 Quasar 버튼(.q-btn) 클래스를 가진 건 제외!
+            "a:not(.q-btn)": 2,                
             ".q-item": 2,          
-            ".q-tab": 2,            
+            ".q-tab": 2,          
 
             # --- 3: 아바타 (Avatar) ---
             ".q-header .q-btn--round": 3,  
