@@ -1,5 +1,5 @@
 from .base_page import BasePage
-
+from playwright.sync_api import expect
 class ProjectPage(BasePage):
 
     def create_project(self, project_name, project_key):
@@ -10,5 +10,6 @@ class ProjectPage(BasePage):
         self.page.locator("//span[contains(text(), '팀 테스트')]").click()
         self.page.locator('button:has-text("Create")').click()
         self.page.locator(f'div:text-is("{project_key}")').click()
+        expect(self.page.locator("text=Project Statistics")).to_be_visible(timeout=5000)
         self.page.locator('button:has-text("Delete")').click()
         self.page.locator('button:has-text("Delete")').nth(1).click()
