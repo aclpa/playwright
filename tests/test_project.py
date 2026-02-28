@@ -5,7 +5,7 @@ import os
 import re
 from faker import Faker
 
-def test_create_project(page):
+def test_create_project(page): #TC5 프로젝트 생성 테스트
     project_page = ProjectPage(page)
     login_page = LoginPage(page)
     fake = Faker()
