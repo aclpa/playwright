@@ -3,7 +3,7 @@ from pathlib import Path
 import warnings
 
 class AIVerifier:
-    def __init__(self, model_path="best.pt"):
+    def __init__(self, model_path="utils/best.pt"):
         # 모델 경로 검증 및 로드
         self.model_path = Path(model_path).resolve()
         if not self.model_path.exists():

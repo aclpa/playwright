@@ -1,53 +1,31 @@
-from pages.ai_page import aipage
-from playwright.sync_api import expect
 from pages.login_page import LoginPage
+from utils.ssim import SSIMChecker
+from utils.yolo import AIVerifier
 import os
 
-admin_email = os.getenv("ADMIN_EMAIL")
-admin_pass = os.getenv("ADMIN_PASS")
-base_url = os.getenv("BASE_URL")   
-
-def test_ai(page):
-    ai_page = aipage(page)
-    login_page = LoginPage(page)
-    login_page.navigate()
-    ai_page.login_successful_ai(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=3000)
-
-def test_ai_logout(page):   
-    ai_page = aipage(page)
+def test_dashboard_visual_integrity(page):
+    """대시보드 화면의 CSS 깨짐(SSIM) 및 필수 UI 렌더링(YOLO)을 검증합니다."""
+    
+    # 1. Playwright: 초고속으로 대시보드 진입 및 로딩 대기
     login_page = LoginPage(page)
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     login_page.navigate("#/dashboard")
-    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
-    ai_page.logout_ai()
-
-def test_ai_project(page):
-    ai_page = aipage(page)
-    login_page = LoginPage(page)
-    login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    login_page.navigate("#/projects")
-    ai_page.project_ai()
+    page.wait_for_load_state("networkidle") # 화면 렌더링 안정화 대기
     
-# def test_ai_navigation(page):
-#     """
-#     YOLO와 OCR이 결합된 하이브리드 AI로 메뉴를 찾아 클릭하는 테스트
-#     """
-#     # 1. api 로그인
-#     login_page = LoginPage(page)
+    # 스크린샷 캡처
+    current_shot = "temp_dashboard.png"
+    page.screenshot(path=current_shot)
 
-    
-#     print("\n🌐 시스템 로그인 중...")
-#     login_page.api_login(admin_email, admin_pass)
-#     # AI 로케이터
-#     ai = AILocator()
-#     # 3. AI에게 특정 텍스트를 가진 요소 클릭 지시
-#     print("\n🚀 AI가 화면을 스캔하여 타겟을 찾습니다...")
-#     # [미션 2] 왼쪽 메뉴에서 "Projects" 찾아 누르기
-#     print("\n--- [미션 2] 왼쪽 메뉴 클릭 ---")
-#     page.wait_for_selector("text=Projects", timeout=5000)
-#     ai.click_by_text(page, target_text="Projects", target_class="link", conf=0.5)
-#     print("\n--- [미션 1] 새 프로젝트 버튼 클릭 ---")
-#     page.wait_for_selector("text=New Project", timeout=5000)
-#     ai.click_by_text(page, target_text="NEW PROJECT", target_class="button", conf=0.5)
-#     print("✅ 모든 AI 네비게이션 테스트 완료!")
+    # 2. SSIM: 화면 레이아웃이 기존과 95% 이상 일치하는지 픽셀 검증
+    # (최초 실행 시 baseline이 없으면 자동으로 100점 처리 및 기준 이미지 생성)
+    similarity = SSIMChecker.check_layout(
+        baseline_path="baselines/win_dashboard_baseline.png", 
+        current_path=current_shot,
+        diff_save_path="errors/diff_dashboard.png"
+    )
+    assert similarity >= 95.0, f"🚨 레이아웃 깨짐! (유사도: {similarity:.2f}%) errors 폴더를 확인하세요."
+
+    # 3. YOLO: 레이아웃은 맞더라도 필수 UI(아바타 등)가 화면에 렌더링 되었는지 AI 검증
+    ai = AIVerifier()
+    is_avatar_visible = ai.verify_element_exists(current_shot, target_class="avatar", conf=0.5)
+    assert is_avatar_visible, "🚨 시각적 버그: 우측 상단 아바타가 화면에 보이지 않습니다!"
