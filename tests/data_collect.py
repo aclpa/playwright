@@ -1,4 +1,3 @@
-# tests/data_collect.py (수정본)
 import os
 from pages.login_page import LoginPage
 from utils.labeler import AutoLabeler

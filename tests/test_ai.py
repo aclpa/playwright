@@ -1,7 +1,6 @@
 from pages.ai_page import aipage
 from playwright.sync_api import expect
 from pages.login_page import LoginPage
-import re
 import os
 
 admin_email = os.getenv("ADMIN_EMAIL")
