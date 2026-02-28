@@ -5,7 +5,7 @@ import os
 import re
 from faker import Faker
 
-def test_create_sprint(page): #TC6 스프린트 생성 테스트
+def test_create_sprint(page): #TC7 스프린트 생성 테스트
     sprint_page = SprintPage(page)
     login_page = LoginPage(page)
     fake = Faker()
