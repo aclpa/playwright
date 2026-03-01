@@ -9,12 +9,12 @@ def test_project_visual_integrity(page):
     login_page.navigate("#/projects")
     page.wait_for_load_state("networkidle")
     current_shot = "testim/test/test_project.png"
-    project_list_locator = page.locator(".col-12.col-sm-6.col-md-4")
     
-    # 스크린샷 캡처 시 mask 옵션을 주면 해당 영역이 색상 박스로 덮여서 저장됩니다.
     page.screenshot(
         path=current_shot,
-        mask=[project_list_locator] # 배열 형태로 여러 개 지정 가능
+        mask=[
+        page.locator(".row.q-col-gutter-md").nth(1) 
+        ]
     )
     similarity = SSIMChecker.check_layout(
         baseline_path="testim/baselines/win_project_baseline.png", 
@@ -35,4 +35,4 @@ def test_project_visual_integrity(page):
 
     missing_classes = required_classes - detected_classes
     
-    assert not missing_classes, f"🚨 시각적 버그 감지: 대시보드 필수 UI가 누락되었습니다! (못 찾은 클래스 ID: {missing_classes})"
+    assert not missing_classes, f"🚨 시각적 버그 감지: 프로젝트 필수 UI가 누락되었습니다! (못 찾은 클래스 ID: {missing_classes})"

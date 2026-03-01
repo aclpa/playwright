@@ -31,4 +31,4 @@ def test_profile_visual_integrity(page):
 
     missing_classes = required_classes - detected_classes
     
-    assert not missing_classes, f"🚨 시각적 버그 감지: 대시보드 필수 UI가 누락되었습니다! (못 찾은 클래스 ID: {missing_classes})"
+    assert not missing_classes, f"🚨 시각적 버그 감지: 프로필 필수 UI가 누락되었습니다! (못 찾은 클래스 ID: {missing_classes})"
