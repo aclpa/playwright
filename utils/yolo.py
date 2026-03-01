@@ -16,7 +16,7 @@ class AIVerifier:
         self.class_map = {'button': 0, 'input': 1, 'link': 2, 'avatar': 3, 'q-select': 4}
         warnings.filterwarnings("ignore", message=".*pin_memory.*")
 
-    def get_detected_classes(self, image_path: str, conf=0.5) -> list:
+    def get_detected_classes(self, image_path: str, conf=0.5, save_path: str=None) -> list:
         """
         이미지에서 발견된 모든 객체의 클래스 ID를 중복 없이 리스트로 반환합니다.
         (예: 아바타와 드롭다운이 있으면 [3, 4] 반환)
@@ -26,7 +26,10 @@ class AIVerifier:
             conf=conf,
             verbose=False # 터미널 로그 숨김 (테스트 결과만 깔끔하게 보기 위해)
         )
-        
+        if save_path:
+            results[0].save(filename=save_path)
+            print(f"📸 AI 박스 판독 결과 저장 완료: {save_path}")
+            
         detected_classes = []
         for box in results[0].boxes:
             class_id = int(box.cls[0])

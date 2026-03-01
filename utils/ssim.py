@@ -34,18 +34,21 @@ class SSIMChecker:
         similarity = score * 100
 
         # 4. 차이가 발생했을 때 (예: 98점 미만) 빨간색 네모 쳐서 저장하기
-        if similarity < 98.0:
-            print(f"🚨 레이아웃 차이 감지! ({similarity:.2f}%) -> {diff_save_path} 저장 중...")
-            thresh = cv2.threshold(diff, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-            contours, _ = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            
-            img_diff = imgB.copy()
-            for c in contours:
-                x, y, w, h = cv2.boundingRect(c)
-                # 너무 자잘한 픽셀 차이는 무시 (노이즈 필터링)
-                if w > 5 and h > 5: 
-                    cv2.rectangle(img_diff, (x, y), (x + w, y + h), (0, 0, 255), 2) # 빨간 박스
-            
-            cv2.imwrite(diff_save_path, img_diff)
+        print(f"📊 SSIM 레이아웃 검증 결과: {similarity:.2f}% -> {diff_save_path} 에 차이점 결과 저장됨")
+        
+        # 차이점(diff)을 이진화(흑백) 처리해서 윤곽선 찾기
+        thresh = cv2.threshold(diff, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+        contours, _ = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        img_diff = imgB.copy() # 현재 스크린샷 복사
+        for c in contours:
+            x, y, w, h = cv2.boundingRect(c)
+            # 너무 자잘한 픽셀 차이는 무시 (노이즈 필터링)
+            if w > 5 and h > 5: 
+                # 차이가 나는 부분에 빨간색(0, 0, 255) 네모 그리기
+                cv2.rectangle(img_diff, (x, y), (x + w, y + h), (0, 0, 255), 2) 
+        
+        # 무조건 저장
+        cv2.imwrite(diff_save_path, img_diff)
 
         return similarity

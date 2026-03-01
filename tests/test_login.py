@@ -3,30 +3,24 @@ from utils.ssim import SSIMChecker
 from utils.yolo import AIVerifier
 import os
 
-def test_project_visual_integrity(page):
+def test_login_visual_integrity(page):
     login_page = LoginPage(page)
-    login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    login_page.navigate("#/projects")
+    login_page.navigate()
     page.wait_for_load_state("networkidle")
-    current_shot = "testim/test/test_project.png"
-    project_list_locator = page.locator(".col-12.col-sm-6.col-md-4")
-    
-    # 스크린샷 캡처 시 mask 옵션을 주면 해당 영역이 색상 박스로 덮여서 저장됩니다.
-    page.screenshot(
-        path=current_shot,
-        mask=[project_list_locator] # 배열 형태로 여러 개 지정 가능
-    )
+    current_shot = "testim/test/test_login.png"
+    page.screenshot(path=current_shot)
+
     similarity = SSIMChecker.check_layout(
-        baseline_path="testim/baselines/win_project_baseline.png", 
+        baseline_path="testim/baselines/win_login_baseline.png", 
         current_path=current_shot,
-        diff_save_path="testim/errors/diff_project.png"
+        diff_save_path="testim/errors/diff_login.png"
     )
     assert similarity >= 95.0, f"🚨 레이아웃 깨짐! (유사도: {similarity:.2f}%) errors 폴더를 확인하세요."
     ai = AIVerifier()
 
-    required_classes = {0,2,3,4} 
+    required_classes = {0,1,2} 
 
-    boxed_result_shot = "testim/debug/test_project_boxed_success.png"
+    boxed_result_shot = "testim/debug/test_login_boxed_success.png"
     detected_classes = set(ai.get_detected_classes(
         current_shot, 
         conf=0.5, 
