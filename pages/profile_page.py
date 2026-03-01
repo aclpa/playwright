@@ -8,3 +8,7 @@ class ProfilePage(BasePage):
         self.page.locator("label:has-text('Phone *')").fill(Phone)
         self.page.locator("label:has-text('Avatar URL')").fill(Avatar_Url)
         self.page.locator("button:has-text('UPDATE')").click()
+    
+    def profile_team(self):
+        self.page.locator("button:has-text('dark_mode')").click()
+        self.page.locator("a:has-text('Teams')").click()
