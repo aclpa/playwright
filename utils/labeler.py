@@ -28,12 +28,13 @@ class AutoLabeler:
             ".q-select, [role='combobox']": 4 
         }
 
-    def collect(self, page: Page, prefix: str = "page"):
-        """현재 화면의 스크린샷과 YOLO 라벨 텍스트를 생성합니다."""
-        
-        # 화면이 완전히 렌더링될 때까지 대기
+    # utils/labeler.py 수정
+    def collect(self, page: Page, prefix: str = "page", target_locator=None):
+        """
+        target_locator가 주어지면 해당 부분만 캡처하고 기준 좌표를 재계산합니다.
+        """
         page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(1000) # 애니메이션 안정화 대기
+        page.wait_for_timeout(1000) 
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         img_name = f"{prefix}_{timestamp}.png"
@@ -42,11 +43,17 @@ class AutoLabeler:
         img_path = os.path.join(self.img_dir, img_name)
         lbl_path = os.path.join(self.lbl_dir, lbl_name)
         
-        # 스크린샷 캡처
-        page.screenshot(path=img_path)
-        
-        viewport = page.viewport_size
-        vw, vh = viewport['width'], viewport['height']
+        # 💡 [핵심] 전체 캡처 vs 부분 캡처 분기 처리
+        if target_locator:
+            parent_box = target_locator.bounding_box()
+            vw, vh = parent_box['width'], parent_box['height']
+            parent_x, parent_y = parent_box['x'], parent_box['y']
+            target_locator.screenshot(path=img_path) # 부분만 캡처
+        else:
+            viewport = page.viewport_size
+            vw, vh = viewport['width'], viewport['height']
+            parent_x, parent_y = 0, 0
+            page.screenshot(path=img_path) # 전체 캡처
         
         labels = []
         for selector, class_id in self.class_map.items():
@@ -59,21 +66,26 @@ class AutoLabeler:
                 if not box or box['width'] == 0 or box['height'] == 0:
                     continue
                     
-                # 💡 [핵심] 정규화 (Normalization) 연산
-                x_center = (box['x'] + (box['width'] / 2)) / vw
-                y_center = (box['y'] + (box['height'] / 2)) / vh
+                # 💡 [핵심] 부모 박스(부분 캡처 영역)를 기준으로 상대 좌표 계산
+                rel_x = box['x'] - parent_x
+                rel_y = box['y'] - parent_y
+                
+                # 객체가 캡처된 영역(부모 박스)을 완전히 벗어났다면 라벨링 제외
+                if rel_x < 0 or rel_y < 0 or (rel_x + box['width']) > vw or (rel_y + box['height']) > vh:
+                    continue
+                    
+                # 정규화 연산 (0.0 ~ 1.0)
+                x_center = (rel_x + (box['width'] / 2)) / vw
+                y_center = (rel_y + (box['height'] / 2)) / vh
                 w_norm = box['width'] / vw
                 h_norm = box['height'] / vh
                 
-                # 뷰포트 안에 있는 정상적인 요소만 기록
                 if 0 <= x_center <= 1 and 0 <= y_center <= 1:
                     labels.append(f"{class_id} {x_center:.6f} {y_center:.6f} {w_norm:.6f} {h_norm:.6f}")
                     
-        # 파일 저장 로직
         if labels:
             with open(lbl_path, "w", encoding="utf-8") as f:
                 f.write("\n".join(labels))
             print(f"📸 [데이터 수집] {prefix} 화면 - 객체 {len(labels)}개 라벨링 완료!")
         else:
-            # 라벨링할 객체가 하나도 없으면 스크린샷 파일 삭제
             os.remove(img_path)

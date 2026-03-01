@@ -3,105 +3,45 @@ from pages.login_page import LoginPage
 from utils.labeler import AutoLabeler
 
 def test_mass_data_collection(page):
-    """ERP의 여러 메뉴를 순회하며 100장 이상의 데이터를 자동으로 수집합니다."""
-    # 1. 로그인
+    """ERP의 각 세부 컴포넌트(사이드바, 헤더, 툴바 등)만 집중적으로 수집합니다."""
     login_page = LoginPage(page)
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     labeler = AutoLabeler()
     base_url = os.getenv("BASE_URL")
 
-   
-    target_paths = [ #2. 수집할 경로 리스트
-        "/#/auth/login",
-        "/#/dashboard",
-        "/#/projects",
-        "/#/sprints",
-        "/#/issues",
-        "/#/kanban",
-        "/#/teams",
-        "/#/resources/servers",
-        "/#/resources/services",
-        "/#/profile",
-        "/#/resources/deployments"
-    ]
+    print("\n🧩 완전 세분화(Component-level) 데이터 수집 시작...")
 
-    print("\n🚀 윈도우 환경 데이터 수집 스프린트 시작...")
-
-    for path in target_paths:
-        prefix = path.replace("/", "_").replace("#", "")  # ← 수정
-    
-        page.goto(f"{base_url}{path}")
-        page.wait_for_load_state("networkidle")
-    
-        labeler.collect(page, prefix=f"win_{prefix}_normal")
-    
-        page.set_viewport_size({"width": 1280, "height": 768})
-        labeler.collect(page, prefix=f"win_{prefix}_small")
-    
-        page.set_viewport_size({"width": 1000, "height": 500})
-        labeler.collect(page, prefix=f"win_{prefix}_mobile")
-
-        page.set_viewport_size({"width": 1920, "height": 1080})
-        labeler.collect(page, prefix=f"win_{prefix}_large")
-
-        page.set_viewport_size({"width": 1280, "height": 720})
-
-    print("\n📸 드롭다운 메뉴 특별 수집 시작...")
-    # 1. 대시보드로 이동
+    # 1. 대시보드 페이지 이동
     page.goto(f"{base_url}/#/dashboard")
     page.wait_for_load_state("networkidle")
 
-    # 2. 우측 상단 아바타(프로필) 버튼 클릭해서 메뉴 펼치기
-    # (DOM 로케이터를 이용해 확실하게 엽니다)
-    page.locator("//button[.//div[contains(@class, 'q-avatar')]]").click()
-    page.wait_for_timeout(500) # 애니메이션이 펼쳐질 때까지 0.5초 대기
+    # --- [구역 1] 사이드바 (Sidebar) 수집 ---
+    sidebar_locator = page.locator(".q-drawer") # 실제 사이드바 클래스로 변경 필요
+    if sidebar_locator.is_visible():
+        labeler.collect(page, prefix="comp_sidebar_normal", target_locator=sidebar_locator)
+        # 반응형 테스트를 위해 창 크기를 줄여서 사이드바 다시 캡처
+        page.set_viewport_size({"width": 1000, "height": 700})
+        labeler.collect(page, prefix="comp_sidebar_small", target_locator=sidebar_locator)
+        page.set_viewport_size({"width": 1280, "height": 720}) # 원상복구
 
-    # 3. 메뉴가 펼쳐진 상태에서 찰칵!
-    labeler.collect(page, prefix="win_profile_dropdown")
-    
-    # 4. (선택) 창 크기를 줄여서 한 번 더 찰칵!
-    page.set_viewport_size({"width": 1000, "height": 700})
-    labeler.collect(page, prefix="win_profile_dropdown_small")
+    # --- [구역 2] 상단 헤더/툴바 (Toolbar) 수집 ---
+    header_locator = page.locator(".q-header") # 실제 헤더 클래스로 변경 필요
+    if header_locator.is_visible():
+        labeler.collect(page, prefix="comp_header", target_locator=header_locator)
 
+    # --- [구역 3] 대시보드 중앙 위젯 영역 수집 ---
+    # 예: Total Projects 등이 있는 상단 상태 카드 묶음
+    status_cards_locator = page.locator(".row.q-col-gutter-md").first()
+    if status_cards_locator.is_visible():
+        labeler.collect(page, prefix="comp_dashboard_cards", target_locator=status_cards_locator)
+
+    # 2. 프로젝트 페이지 이동
     page.goto(f"{base_url}/#/projects")
-
-    page.locator('button:has-text("New Project")').click()
-    labeler.collect(page, prefix="win_new_project")
-    page.set_viewport_size({"width": 1080, "height": 720})
-    labeler.collect(page, prefix="win_new_project_small")
-    page.set_viewport_size({"width": 800, "height": 1200})
-    labeler.collect(page, prefix="win_new_project_mobile")
-
-    page.goto(f"{base_url}/#/Issues")
-    page.locator('button:has-text("New Issue")').click()
-    labeler.collect(page, prefix="win_new_issue")
-    page.set_viewport_size({"width": 1080, "height": 720})
-    labeler.collect(page, prefix="win_new_issue_small")
-    page.set_viewport_size({"width": 800, "height": 1200})
-    labeler.collect(page, prefix="win_new_issue_mobile")
-
-    page.goto(f"{base_url}/#/Teams")
-    page.locator('button:has-text("New Team")').click()
-    labeler.collect(page, prefix="win_new_team")
-    page.set_viewport_size({"width": 1080, "height": 720})
-    labeler.collect(page, prefix="win_new_team_small")
-    page.set_viewport_size({"width": 800, "height": 1200})
-    labeler.collect(page, prefix="win_new_team_mobile")
-
-    page.goto(f"{base_url}/#/Sprints")
-    page.locator('button:has-text("New Sprint")').click()
-    labeler.collect(page, prefix="win_new_sprint")
-    page.set_viewport_size({"width": 1080, "height": 720})
-    labeler.collect(page, prefix="win_new_sprint_small")
-    page.set_viewport_size({"width": 800, "height": 1200})
-    labeler.collect(page, prefix="win_new_sprint_mobile")
+    page.wait_for_load_state("networkidle")
     
-    page.goto(f"{base_url}/#/profile")
-    page.locator('button:has-text("Edit Profile")').click()
-    labeler.collect(page, prefix="win_edit_profile")
-    page.set_viewport_size({"width": 1080, "height": 720})
-    labeler.collect(page, prefix="win_edit_profile_small")
-    page.set_viewport_size({"width": 800, "height": 1200})
-    labeler.collect(page, prefix="win_edit_profile_mobile")
-    
-    print(f"✅ 수집 완료! 'datasets/images/train' 폴더를 확인하세요.")
+    # --- [구역 4] 프로젝트 리스트/그리드 영역 수집 ---
+    project_list_locator = page.locator(".q-table__container") # 실제 테이블 클래스로 변경 필요
+    if project_list_locator.is_visible():
+        labeler.collect(page, prefix="comp_project_list", target_locator=project_list_locator)
+
+    print(f"✅ 세분화된 컴포넌트 수집 완료! 'datasets/images/train' 폴더를 확인하세요.")
