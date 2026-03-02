@@ -7,16 +7,10 @@ YOLO 공용 엔진 모듈.
   YOLOEngine  : 싱글톤 — 모델을 프로세스 내 1회만 로드, healer.py에서 공유
   AIVerifier  : 기존 인터페이스 유지 래퍼 — legacy 테스트 코드 호환
 """
-
-import warnings
 from pathlib import Path
 from typing import Optional
-
 import cv2
 from ultralytics import YOLO
-
-warnings.filterwarnings("ignore", message=".*pin_memory.*")
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # YOLOEngine — 싱글톤 공용 엔진
@@ -41,7 +35,6 @@ class YOLOEngine:
         7: "toast",
         8: "dialog-button",
     }
-    NAME_TO_ID = {v: k for k, v in CLASS_MAP.items()}
 
     def __init__(self, model_path: str = "utils/best.pt"):
         path = Path(model_path).resolve()
@@ -62,12 +55,7 @@ class YOLOEngine:
     def reset(cls):
         cls._instance = None
 
-    def detect(
-        self,
-        image_path: str,
-        conf: float = 0.5,
-        save_path: Optional[str] = None,
-    ) -> list[dict]:
+    def detect(self, image_path: str, conf: float = 0.5, save_path: Optional[str] = None) -> list[dict]:
         """
         이미지에서 모든 객체를 탐지하여 구조화된 결과 반환.
 
