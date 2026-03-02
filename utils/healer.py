@@ -278,9 +278,9 @@ class AIHealer:
 
             candidates.append((final_s, char_s, semantic_s, cx, cy, class_id, ocr_text, det["box"]))
 
-            cv2.rectangle(debug_img, (x1, y1), (x2, y2), (180, 180, 180), 1)
+            cv2.rectangle(debug_img, (x1, y1), (x2, y2), (0, 165, 255), 1)
             cv2.putText(debug_img, f"{ocr_text[:10]}({final_s:.2f})",
-                        (x1, max(y1-4, 0)), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (180,180,180), 1)
+                        (x1, max(y1-4, 0)), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0,165,255), 1)
 
         if not candidates:
             return None, "", debug_img, {} # ✨ 4개만 반환
@@ -292,10 +292,10 @@ class AIHealer:
             print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.3) 미달")
             return None, "", debug_img, {} # ✨ 4개만 반환
 
-        cv2.rectangle(debug_img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        cv2.circle(debug_img, (cx, cy), 6, (0, 0, 255), -1)
+        cv2.rectangle(debug_img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+        cv2.circle(debug_img, (cx, cy), 6, (0, 255, 0), -1)
         cv2.putText(debug_img, f"TARGET:{ocr_text}[{final_s:.2f}]",
-                    (x1, max(y1-10, 0)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
+                    (x1, max(y1-10, 0)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2)
 
         print(f"    ✅ '{ocr_text}': 글자 {char_s:.2f}×0.4 + 의미 {semantic_s:.2f}×0.6 = {final_s:.2f}")
 
