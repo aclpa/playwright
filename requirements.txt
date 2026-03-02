@@ -20,4 +20,5 @@ python-dotenv
 
 ultralytics
 
+sentence-transformers
 

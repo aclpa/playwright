@@ -1,5 +1,5 @@
 from pages.login_page import LoginPage
-from utils.ssim import SSIMChecker
+from legacy.ssim import SSIMChecker
 from utils.yolo import AIVerifier
 import os
 
