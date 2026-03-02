@@ -1,7 +1,7 @@
 """
 yolo.py
 -------
-YOLO 공용 엔진 모듈.
+YOLO 공용 엔진 모듈. (best.onnx 사용 — CPU 환경 최적화)
 
 클래스 구조:
   YOLOEngine  : 싱글톤 — 모델을 프로세스 내 1회만 로드, healer.py에서 공유
@@ -36,7 +36,7 @@ class YOLOEngine:
         8: "dialog-button",
     }
 
-    def __init__(self, model_path: str = "utils/best.pt"):
+    def __init__(self, model_path: str = "utils/best.onnx"):
         path = Path(model_path).resolve()
         if not path.exists():
             raise FileNotFoundError(f"❌ YOLO 모델을 찾을 수 없습니다: {path}")
@@ -45,7 +45,7 @@ class YOLOEngine:
         print("✅ YOLOEngine: 로딩 완료")
 
     @classmethod
-    def get_instance(cls, model_path: str = "utils/best.pt") -> "YOLOEngine":
+    def get_instance(cls, model_path: str = "utils/best.onnx") -> "YOLOEngine":
         """싱글톤 인스턴스 반환. 최초 1회만 모델을 로드합니다."""
         if cls._instance is None:
             cls._instance = cls(model_path)
@@ -94,5 +94,3 @@ class YOLOEngine:
 
     def get_detected_class_ids(self, image_path: str, conf: float = 0.5) -> set[int]:
         return {d["class_id"] for d in self.detect(image_path, conf)}
-
-

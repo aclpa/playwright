@@ -13,6 +13,7 @@ dist/
 build/
 repomix_packaging/
 repomix-output.xml
+
 # --- [Playwright & Test Reports] ---
 test-results/
 playwright-report/
@@ -20,17 +21,21 @@ blob-report/
 playwright/.local-browsers/
 storage_state.json
 testim/
-# --- [AI 모델 파일(*.pt)] ---
+
+# --- [AI 모델 파일] ---
+# best.pt는 best.onnx로 교체되었으므로 무시
 *.pt
-*.onnx
 datasets/
+
 # --- 학습 로그 ---
 runs/
-!**/best.pt
+
 # --- YOLO 캐시 파일 무시 ---
 *.cache
 
-runs/
+# --- best.onnx는 추적 (LFS 없이 일반 파일로 관리) ---
+!utils/best.onnx
+
 # --- [IDEs & OS] ---
 .vscode/
 .idea/
