@@ -94,12 +94,12 @@ jobs:
       - name: Run ${{ matrix.suite }} tests
         run: |
           docker run --rm \
-            -e BASE_URL="${{ env.BASE_URL }}" \
-            -e API_URL="${{ env.API_URL }}" \
-            -e ADMIN_EMAIL="${{ env.ADMIN_EMAIL }}" \
-            -e ADMIN_PASS="${{ env.ADMIN_PASS }}" \
-            -e FAIL_EMAIL="${{ env.FAIL_EMAIL }}" \
-            -e FAIL_PASS="${{ env.FAIL_PASS }}" \
+            -e BASE_URL="${{ secrets.BASE_URL }}" \
+            -e API_URL="${{ secrets.API_URL }}" \
+            -e ADMIN_EMAIL="${{ secrets.ADMIN_EMAIL }}" \
+            -e ADMIN_PASS="${{ secrets.ADMIN_PASS }}" \
+            -e FAIL_EMAIL="${{ secrets.FAIL_EMAIL }}" \
+            -e FAIL_PASS="${{ secrets.FAIL_PASS }}" \
             -v ${{ github.workspace }}/test-results:/app/test-results \
             -v ${{ github.workspace }}/testim:/app/testim \
             erp-e2e-test:${{ github.sha }} \
