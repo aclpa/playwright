@@ -2,7 +2,7 @@
 --extra-index-url https://download.pytorch.org/whl/cu121
 
 # 🧠 AI & Vision (객체 탐지 및 텍스트 인식)
-torch
+torch>=2.6.0
 torchvision
 torchaudio
 ultralytics

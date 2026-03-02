@@ -1,9 +1,12 @@
 from .base_page import BasePage
 
 class DashboardPage(BasePage):
+
     def user_menu(self):
-        self.page.locator("//button[.//div[contains(@class, 'q-avatar')]]").click()
+        self.click("//button[.//div[contains(@class, 'q-avatar')]]","avatar")
+
     def profile(self):
-        self.page.locator("//div[contains(text(), 'Profile')]").click()
+        self.click("//div[contains(text(), 'Profile')]", "Profile")
+
     def logout(self):
-        self.page.locator("//div[contains(text(), 'Logout')]").click()
+        self.click("//div[contains(text(), 'Logout')]", "Logout")
