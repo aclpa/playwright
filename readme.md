@@ -39,7 +39,7 @@ flowchart LR
     U3(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U3<br>NEW PROJECT<br>버튼 클릭</div>")):::user
     U4(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U4<br>프로젝트 필드칸<br>입력</div>")):::user
     U5(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U5<br>프로젝트 선택<br>입력</div>")):::user
-    U6(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U4<br>프로젝트 delete 선택<br>입력</div>")):::user
+    U6(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U6<br>프로젝트 delete 선택</div>")):::user
 
     S1.1["S1.1 시스템 로그인 수락"]:::system 
     S1.2["S1.2 시스템 로그인 거부"]:::system
