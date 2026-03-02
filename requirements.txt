@@ -1,5 +1,6 @@
 # 🧠 AI & Vision (객체 탐지, 텍스트 인식, 의미 추론)
 ultralytics
+onnxruntime          # ONNX 모델 추론 (best.onnx 사용)
 easyocr
 sentence-transformers
 opencv-python-headless
