@@ -1,6 +1,8 @@
 train: datasets/images/train
 val: datasets/images/train 
-# 클래스 개수
-nc: 5
-# 클래스 이름
-names: ['button', 'input', 'link', 'avatar','q-select']
+
+# 클래스 개수를 5에서 9로 변경!
+nc: 9
+
+# 누락되었던 클래스 이름들을 순서대로 모두 추가!
+names: ['button', 'input', 'link', 'avatar', 'q-select', 'icon-button', 'modal', 'toast', 'dialog-button']
