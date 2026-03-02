@@ -8,7 +8,7 @@ class ProjectPage(BasePage):
         self.fill('area-label:has-text("프로젝트 이름 *")',"프로젝트 이름",project_name)
         self.fill('area-label:has-text("프로젝트 키 *")',"프로젝트 키",project_key)
         self.click("input[role=combobox][aria-label='Team *']", "Team")
-        self.page.locator("//span[contains(text(), '팀 테스트')]").click()
+        self.click("//span[contains(text(), '팀 테스트')]","팀 테스트")
         self.click('button:has-text("Create")', "Create")
         self.click(f'div:text-is("{project_key}")',f"{project_key}")
         expect(self.page.locator("text=Project Statistics")).to_be_visible(timeout=5000)

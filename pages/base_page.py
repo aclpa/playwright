@@ -7,7 +7,7 @@ class BasePage:
         self.page     = page
         self.base_url = os.getenv("BASE_URL")
         self.api_url  = os.getenv("API_URL")
-        
+        self.healer   = AIHealer(page) 
 
     def navigate(self, path: str = ""):
         self.page.goto(f"{self.base_url}{path}")
@@ -17,6 +17,4 @@ class BasePage:
 
     def fill(self, locator: str, target_text: str, value: str, timeout: int = None):
         return self.healer.fill(locator, target_text, value, timeout=timeout)
-
-    def healer(self, page):
-        self.healer   = AIHealer(page) 
+        
