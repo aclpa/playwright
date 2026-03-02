@@ -9,7 +9,7 @@ def test_create_sprint(page): #TC7 스프린트 생성 테스트
     sprint_page = SprintPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    sprint_name = fake.lexify(text="스프린트 ????")
+    sprint_name = fake.lexify(text="????")
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     sprint_page.navigate("#/sprints")
     sprint_page.create_sprint(sprint_name)

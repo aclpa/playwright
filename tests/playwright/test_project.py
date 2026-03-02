@@ -9,7 +9,7 @@ def test_create_project(page): #TC5 프로젝트 생성 테스트
     project_page = ProjectPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    project_name = fake.lexify(text="프로젝트 ????")
+    project_name = fake.lexify(text="????")
     project_key = fake.lexify(text="?????").upper()
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     project_page.navigate("#/projects")

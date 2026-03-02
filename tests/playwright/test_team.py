@@ -9,7 +9,7 @@ def test_create_team(page): #TC8 팀 생성 테스트
     team_page = TeamPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    team_name = fake.lexify(text="팀 ????")
+    team_name = fake.lexify(text="????")
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     team_page.navigate("#/teams")
     team_page.create_team(team_name)

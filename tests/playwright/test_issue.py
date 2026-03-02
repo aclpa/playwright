@@ -9,7 +9,7 @@ def test_create_issue(page): #TC6 이슈 생성 테스트
     issue_page = IssuePage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    issue_title = fake.lexify(text="이슈 ????")
+    issue_title = fake.lexify(text="????")
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     issue_page.navigate("#/issues")
     issue_page.create_issue(issue_title)

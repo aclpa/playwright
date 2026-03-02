@@ -1,24 +1,15 @@
-# PyTorch GPU 버전을 우선적으로 찾도록 인덱스 URL 지정
---extra-index-url https://download.pytorch.org/whl/cu121
-
-# 🧠 AI & Vision (객체 탐지 및 텍스트 인식)
-torch>=2.6.0
-torchvision
-torchaudio
+# 🧠 AI & Vision (객체 탐지, 텍스트 인식, 의미 추론)
 ultralytics
 easyocr
-opencv-python
+sentence-transformers
+opencv-python-headless
 
-# 🤖 Test Automation & Web (E2E 테스트 및 API 통신)
+# 🤖 Test Automation & Web (E2E 테스트 및 병렬 실행)
 pytest
 pytest-playwright
 playwright
+pytest-xdist
 faker
 
 # 🛠️ Utilities (환경 변수 등)
 python-dotenv
-
-ultralytics
-
-sentence-transformers
-
