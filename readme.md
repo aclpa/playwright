@@ -70,7 +70,7 @@ flowchart LR
      
     
     linkStyle 1,2,3,4,5,6,7,8,9 stroke-width:4px,stroke:blue;
-    
+    linkStyle 10,11,12,13,14 stroke-width:4px,stroke:red;
     
 
 
