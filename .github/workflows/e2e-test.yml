@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       test_suite:
-        description: "실행할 테스트 파일 (비워두면 전체 실행)"
+        description: "test_auth.py"
         required: false
         default: ""
 
