@@ -1,7 +1,6 @@
 import os
 from utils.healer import AIHealer
 
-
 class BasePage:
     def __init__(self, page):
         self.page     = page
@@ -17,3 +16,4 @@ class BasePage:
 
     def fill(self, locator: str, target_text: str, value: str, timeout: int = None):
         return self.healer.fill(locator, target_text, value, timeout=timeout)
+    

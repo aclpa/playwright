@@ -20,9 +20,33 @@ def browser_context_args(browser_context_args):
         ),
     }
 
+
+@pytest.fixture(scope="session")
+def api(playwright):
+    api_url = os.getenv("API_URL")
+    temp_context = playwright.request.new_context(base_url=api_url)
+    login_response = temp_context.post(
+        "api/v1/auth/login", 
+        data={
+            "email": os.getenv("ADMIN_EMAIL"),
+            "password": os.getenv("ADMIN_PASS")
+        }
+    )
+    access_token = login_response.json().get("access_token")
+    auth_context = playwright.request.new_context(
+        base_url=api_url,
+        extra_http_headers={
+            "Authorization": f"Bearer {access_token}",
+            "Accept": "application/json"
+        }
+    )
+    yield auth_context
+    auth_context.dispose()
+    temp_context.dispose()
+
+
 @pytest.fixture(scope="session", autouse=True)
 def wait_for_server_ready():
-    """테스트 시작 전, 라이브 서버(FE/BE)가 완전히 응답할 때까지 스마트하게 대기합니다."""
     
     # 환경 변수에서 프론트엔드 주소를 가져옵니다. (기본값 설정)
     target_url = os.getenv("BASE_URL")
