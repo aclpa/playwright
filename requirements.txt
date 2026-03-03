@@ -14,3 +14,6 @@ faker
 
 # 🛠️ Utilities (환경 변수 등)
 python-dotenv
+
+onnx             #(ONNX 포맷 지원)
+onnxruntime

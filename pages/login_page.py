@@ -12,7 +12,7 @@ class LoginPage(BasePage):
 
     def api_login(self, email, password):
         login_data = {"email": email,"password": password}
-        login_response = self.page.request.post(f"{self.api_url}api/v1/auth/login", form=login_data, timeout=240000)
+        login_response = self.page.request.post(f"{self.api_url}api/v1/auth/login", data=login_data, timeout=240000)
 
         auth_data = login_response.json()
         access_token = auth_data.get("access_token")

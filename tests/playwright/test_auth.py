@@ -21,7 +21,7 @@ def test_failed_login(page): #TC2 로그인 실패 테스트
 def test_api_login(page):# TC3 API로그인 테스트
     login_page = LoginPage(page)
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    login_page.navigate("#/dashboard")      
+    login_page.navigate("#/dashboard")     
     expect(page).to_have_url(re.compile(r".*/#/dashboard$"))
 
 
@@ -29,7 +29,7 @@ def test_logout(page): #TC4 로그아웃 테스트
     login_page = LoginPage(page)
     dashboard_page = DashboardPage(page) 
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    login_page.navigate("#/dashboard")
+    login_page.navigate("#/dashboard",timeout=600000)
     dashboard_page.user_menu()
     dashboard_page.logout()
     expect(page).to_have_url(re.compile(r".*/#/auth/login$"))

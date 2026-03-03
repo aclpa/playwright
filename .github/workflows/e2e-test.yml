@@ -8,9 +8,10 @@ on:
   workflow_dispatch:
     inputs:
       test_suite:
-        description: ""
+        # 파일 경로 대신 매트릭스 이름만 받도록 변경합니다.
+        description: "실행할 테스트명 (auth, project, kanban 등. 전체는 all 입력)"
         required: false
-        default: "tests/playwright/test_auth.py"
+        default: "auth"
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
@@ -21,6 +22,37 @@ env:
   FAIL_PASS:   ${{ secrets.FAIL_PASS }}
 
 jobs:
+  # 🌟 1. [신규 추가] 어떤 테스트를 돌릴지 결정하는 두뇌(Setup) 역할
+  setup:
+    name: 🧠 Determine Test Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.suites }}
+    steps:
+      - name: Set dynamic matrix
+        id: set-matrix
+        run: |
+          ALL_SUITES='["auth", "project", "issue", "sprint", "team", "profile", "kanban"]'
+          
+          if [ "${{ github.event_name }}" == "push" ]; then
+            echo "🚀 Push 이벤트 감지: auth 테스트만 실행합니다."
+            echo "suites=[\"auth\"]" >> $GITHUB_OUTPUT
+            
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            INPUT="${{ github.event.inputs.test_suite }}"
+            if [ "$INPUT" == "all" ] || [ "$INPUT" == "" ]; then
+              echo "🚀 수동 전체 실행 감지: 모든 테스트를 실행합니다."
+              echo "suites=$ALL_SUITES" >> $GITHUB_OUTPUT
+            else
+              echo "🚀 수동 단일 실행 감지: $INPUT 테스트만 실행합니다."
+              echo "suites=[\"$INPUT\"]" >> $GITHUB_OUTPUT
+            fi
+            
+          else
+            echo "🚀 배포 완료(Repository Dispatch) 감지: 모든 테스트를 실행합니다."
+            echo "suites=$ALL_SUITES" >> $GITHUB_OUTPUT
+          fi
+
   build:
     name: 🐳 Build Docker Image
     runs-on: ubuntu-latest
@@ -64,18 +96,11 @@ jobs:
   test:
     name: 🎭 Run ${{ matrix.suite }} Tests
     runs-on: ubuntu-latest
-    needs: build
+    needs: [setup, build] # 👈 setup 작업이 끝날 때까지 기다립니다.
     strategy:
       fail-fast: false
       matrix:
-        suite:
-          - auth
-          - project
-          - issue
-          - sprint
-          - team
-          - profile
-          - kanban
+        suite: ${{ fromJson(needs.setup.outputs.matrix) }} # 👈 하드코딩 대신 setup에서 넘겨준 배열을 받습니다!
     steps:
       - name: Checkout test repository
         uses: actions/checkout@v4
