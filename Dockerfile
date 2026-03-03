@@ -1,5 +1,4 @@
-# 1. 마이크로소프트가 미리 세팅해둔 '파이썬 + Playwright 브라우저'가 깔린 리눅스 방을 통째로 빌려옵니다.
-FROM mcr.microsoft.com/playwright/python:v1.41.0-jammy
+FROM mcr.microsoft.com/playwright/python:v1.58.0-jammy
 
 # 2. 상자 안에서 우리가 작업할 기준 폴더를 /app 으로 정합니다.
 WORKDIR /app
