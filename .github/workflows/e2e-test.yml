@@ -8,7 +8,7 @@ on:
       test_suite:
         description: "실행할 테스트명 (쉼표 구분: auth,kanban / 전체: all)"
         required: false
-        default: "issue,kanban"
+        default: "issue"
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
