@@ -1,4 +1,4 @@
-name: 🧪 E2E Playwright Tests (AI Healer)
+name: 🧪 DEVFLOW ERP 시나리오 테스트 자동화 
 
 on:
   repository_dispatch:
@@ -8,7 +8,7 @@ on:
       test_suite:
         description: "실행할 테스트명 (쉼표 구분: auth,kanban / 전체: all)"
         required: false
-        default: "issue"
+        default: "all"
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
