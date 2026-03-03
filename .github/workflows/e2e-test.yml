@@ -39,10 +39,10 @@ jobs:
             else
               echo "🚀 수동 선택 실행 감지: $INPUT 테스트만 실행합니다."
               SUITES=$(echo "$INPUT" | python3 -c "
-              import sys, json
-              items = [x.strip() for x in sys.stdin.read().split(',')]
-              print(json.dumps(items))
-              ")
+          import sys, json
+          items = [x.strip() for x in sys.stdin.read().split(',')]
+          print(json.dumps(items))
+          ")
               echo "suites=$SUITES" >> $GITHUB_OUTPUT
             fi
 
