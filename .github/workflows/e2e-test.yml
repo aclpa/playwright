@@ -3,8 +3,6 @@ name: 🧪 E2E Playwright Tests (AI Healer)
 on:
   repository_dispatch:
     types: [erp-updated]
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       test_suite:
@@ -33,11 +31,7 @@ jobs:
         run: |
           ALL_SUITES='["auth", "project", "issue", "sprint", "team", "profile", "kanban"]'
 
-          if [ "${{ github.event_name }}" == "push" ]; then
-            echo "🚀 Push 이벤트 감지: auth 테스트만 실행합니다."
-            echo "suites=[\"auth\"]" >> $GITHUB_OUTPUT
-
-          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             INPUT="${{ github.event.inputs.test_suite }}"
             if [ "$INPUT" == "all" ] || [ "$INPUT" == "" ]; then
               echo "🚀 수동 전체 실행 감지: 모든 테스트를 실행합니다."
@@ -107,7 +101,6 @@ jobs:
           name: test-results-${{ matrix.suite }}
           path: |
             test-results/${{ matrix.suite }}-results.xml
-            testim/healing/
           retention-days: 7
 
   # 📊 3. 테스트 결과 집계 및 요약
