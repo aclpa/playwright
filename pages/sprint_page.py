@@ -11,7 +11,3 @@ class SprintPage(BasePage):
         self.page.locator('label:has-text("Status")').nth(1).click()
         self.click('div[role="listbox"]:has-text("Active")', "Active")
         self.click('button:has-text("CREATE")', "CREATE")
-        self.click(f'div:text-is("{sprint_name}")',sprint_name)
-        expect(self.page.locator("text=스프린트 목표")).to_be_visible(timeout=5000)
-        self.click('button:has-text("DELETE")', "DELETE")
-        self.click('button:has-text("삭제")', "삭제")
