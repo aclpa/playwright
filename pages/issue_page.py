@@ -10,6 +10,6 @@ class IssuePage(BasePage):
         self.click('div[role="listbox"]:has-text("테스트")', "테스트")
         self.click('button:has-text("Create")', "Create")
         self.click(f'div:text-is("{issue_title}")',issue_title)
-        expect(self.page.locator('text=수정일')).to_be_visible(timeout=10000)
+        expect(self.page.locator('text=수정')).to_be_visible()
         self.click('button:has-text("DELETE")', "DELETE")
         self.click('button:has-text("삭제")', "삭제")
