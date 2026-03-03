@@ -2,7 +2,7 @@ from .base_page import BasePage
 
 class ProfilePage(BasePage):
 
-    def edit_profile(self, username, full_name, phone, avatar_url):
+    def edit_profile(self, full_name, phone, avatar_url):
         self.click("button:has-text('Edit Profile')", "Edit Profile")
         self.fill("label:has-text('Full Name *')", "Full Name", full_name)
         self.fill("label:has-text('Phone *')", "Phone", phone)

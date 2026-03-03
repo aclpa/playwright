@@ -10,7 +10,7 @@ on:
       test_suite:
         description: "실행할 테스트명 (auth, project, kanban 등. 전체는 all 입력)"
         required: false
-        default: "auth"
+        default: "all"
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}

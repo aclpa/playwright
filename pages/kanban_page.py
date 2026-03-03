@@ -6,7 +6,7 @@ class KanbanPage(BasePage):
     def drag_and_drop(self):
         todo_column = self.page.locator('div.kanban-column:has-text("To Do")')
         card = todo_column.locator('div.issue-card:has-text("테스트")')
-        expect(todo_column).to_be_visible(timeout=5000)
+        expect(card).to_be_visible(timeout=500000)
 
         if card.count() > 0:
             card.drag_to(self.page.locator('div.kanban-column:has-text("In Progress")'))

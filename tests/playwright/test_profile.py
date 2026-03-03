@@ -15,6 +15,6 @@ def test_edit_profile(page): #TC9 프로필 수정 테스트
     avatar_url = fake.image_url()
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     profile_page.navigate("#/profile")
-    profile_page.edit_profile(username, full_name, phone, avatar_url)
-    expect(page.get_by_text(username)).to_be_visible(timeout=5000)
+    profile_page.edit_profile(full_name, phone, avatar_url)
+    expect(page.get_by_text(full_name)).to_be_visible(timeout=5000)
 
