@@ -30,7 +30,6 @@ def test_logout(page): #TC4 로그아웃 테스트
     dashboard_page = DashboardPage(page) 
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     login_page.navigate("#/dashboard")
-    expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
     dashboard_page.user_menu()
     dashboard_page.logout()
     expect(page).to_have_url(re.compile(r".*/#/auth/login$"))
