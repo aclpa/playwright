@@ -12,14 +12,14 @@ class LoginPage(BasePage):
 
     def api_login(self, email, password):
         login_data = {"email": email,"password": password}
-        login_response = self.page.request.post(f"{self.api_url}api/v1/auth/login", data=login_data, timeout=24000)
+        login_response = self.page.request.post(f"{self.api_url}api/v1/auth/login", form=login_data, timeout=240000)
 
         auth_data = login_response.json()
         access_token = auth_data.get("access_token")
         refresh_token = auth_data.get("refresh_token")
 
         auth_headers = {"Authorization": f"Bearer {access_token}"}
-        response = self.page.request.get(f"{self.api_url}api/v1/auth/me", headers=auth_headers,timeout=24000)
+        response = self.page.request.get(f"{self.api_url}api/v1/auth/me", headers=auth_headers,timeout=240000)
     
         user_data = response.json()
         self.page.add_init_script(f"""
