@@ -5,14 +5,12 @@ on:
     types: [erp-updated]
   push:
     branches: [main]
-  schedule:
-    - cron: "0 15 * * *"
   workflow_dispatch:
     inputs:
       test_suite:
-        description: "tests/playwright/test_auth.py"
+        description: ""
         required: false
-        default: ""
+        default: "tests/playwright/test_auth.py"
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
