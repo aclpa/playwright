@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       test_suite:
-        description: "test_auth.py"
+        description: "tests/playwright/test_auth.py"
         required: false
         default: ""
 

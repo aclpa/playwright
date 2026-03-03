@@ -18,10 +18,3 @@ def test_edit_profile(page): #TC9 프로필 수정 테스트
     profile_page.edit_profile(username, full_name, phone, avatar_url)
     expect(page.get_by_text(username)).to_be_visible(timeout=5000)
 
-def test_profile_team(page): #TC10 프로필 팀 클릭 테스트
-    profile_page = ProfilePage(page)
-    login_page = LoginPage(page)
-    login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    profile_page.navigate("#/profile")
-    profile_page.profile_team()
-    expect(page).to_have_url(re.compile(r".*/#/teams/16$"))

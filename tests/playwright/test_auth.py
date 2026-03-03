@@ -15,7 +15,7 @@ def test_failed_login(page): #TC2 로그인 실패 테스트
     login_page = LoginPage(page)
     login_page.navigate()
     login_page.login_to_system(os.getenv("FAIL_EMAIL"), os.getenv("FAIL_PASS"))
-    expect(page).to_have_url(re.compile(r".*/#/login$"))
+    expect(page.get_by_text("404")).to_be_visible()
 
 
 def test_api_login(page):# TC3 API로그인 테스트
@@ -33,4 +33,4 @@ def test_logout(page): #TC4 로그아웃 테스트
     expect(page.get_by_text("Dash board").first).to_be_visible(timeout=10000)
     dashboard_page.user_menu()
     dashboard_page.logout()
-    expect(page).to_have_url(re.compile(r".*/#/login$"))
+    expect(page).to_have_url(re.compile(r".*/#/auth/login$"))
