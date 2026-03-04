@@ -9,7 +9,6 @@ class LoginPage(BasePage):
         self.page.locator("input[type='password']").fill(password)
         self.page.locator("button[type='submit']").click()
 
-
     def api_login(self, email, password):
         login_data = {"email": email,"password": password}
         login_response = self.page.request.post(f"{self.api_url}api/v1/auth/login", data=login_data, timeout=240000)

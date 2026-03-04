@@ -22,7 +22,7 @@ def test_create_team(page, api_request): #TC8 팀 생성 테스트
     expect(page.get_by_text(f"{team_name}")).to_be_visible()
 
     team_id = response.json().get("id")
-    delete_api=api_request.delete(f"{api_url}api/v1/teams/{team_id}")
+    delete_api=api_request.delete(f"api/v1/teams/{team_id}")
         
     expect(delete_api).to_be_ok()
     

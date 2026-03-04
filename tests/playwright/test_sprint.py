@@ -23,7 +23,7 @@ def test_create_sprint(page, api_request): #TC7 스프린트 생성 테스트
     expect(page.get_by_text(f"{sprint_name}")).to_be_visible()
 
     sprint_id = response.json().get("id")
-    delete_api=api_request.delete(f"{api_url}api/v1/sprints/{sprint_id}")
+    delete_api=api_request.delete(f"api/v1/sprints/{sprint_id}")
 
     expect(delete_api).to_be_ok()
     

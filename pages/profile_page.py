@@ -8,7 +8,3 @@ class ProfilePage(BasePage):
         self.fill("label:has-text('Phone *')", "Phone", phone)
         self.fill("label:has-text('Avatar URL')", "Avatar URL", avatar_url)
         self.click("button:has-text('UPDATE')", "UPDATE")
-
-    def profile_team(self):
-        self.click("button:has-text('dark_mode')", "dark_mode")
-        self.click("a:has-text('Teams')", "Teams")

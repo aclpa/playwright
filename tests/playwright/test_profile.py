@@ -3,7 +3,6 @@ from pages.login_page import LoginPage
 from playwright.sync_api import expect
 import os
 from faker import Faker
-import re
 
 def test_edit_profile(page): #TC9 프로필 수정 테스트
     profile_page = ProfilePage(page)
