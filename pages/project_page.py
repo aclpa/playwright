@@ -7,6 +7,5 @@ class ProjectPage(BasePage):
         self.fill('area-label:has-text("프로젝트 이름 *")',"프로젝트 이름",project_name)
         self.fill('area-label:has-text("프로젝트 키 *")',"프로젝트 키",project_key)
         self.click("input[role=combobox][aria-label='Team *']", "Team")
-        self.click("//span[contains(text(), '팀 테스트')]","팀 테스트")
+        self.click('.q-virtual-scroll__content >> text="팀 테스트"', "팀 테스트")
         self.click('button:has-text("Create")', "Create")
-

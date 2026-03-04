@@ -6,5 +6,5 @@ class IssuePage(BasePage):
         self.click('button:has-text("New Issue")', "New Issue")
         self.fill('label:has-text("Title *")', "Title", issue_name)
         self.click('label:has-text("Project *")', "Project")
-        self.click('div[role="listbox"]:has-text("테스트")', "테스트")
+        self.click('.q-virtual-scroll__content >> text("테스트")', "테스트")
         self.click('button:has-text("Create")', "Create")
