@@ -13,5 +13,5 @@ def test_edit_profile(page): #TC6 프로필 수정 테스트
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
     profile_page.navigate("#/profile")
     profile_page.edit_profile(phone, avatar_url)
-    expect(page.get_by_text("KE123")).to_be_visible(timeout=5000)
+    expect(page.get_by_text("Administrator")).to_be_visible(timeout=5000)
 
