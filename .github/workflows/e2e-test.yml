@@ -1,6 +1,8 @@
 name: 🧪 DEVFLOW ERP 시나리오 테스트 자동화 
 
 on:
+  schedule:
+    - cron: '0 1-23/2 * * *'
   repository_dispatch:
     types: [erp-updated]
   workflow_dispatch:
