@@ -4,7 +4,7 @@ from playwright.sync_api import expect
 from faker import Faker
 import os
 
-def test_create_team(page, api_request): #TC8 팀 생성 테스트
+def test_create_team(page, api_request): #TC9 팀 생성 테스트
     
     team_page = TeamPage(page)
     login_page = LoginPage(page)

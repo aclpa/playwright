@@ -3,7 +3,7 @@ from pages.login_page import LoginPage
 from playwright.sync_api import expect
 import os
 
-def test_drag_and_drop(page, api_request): #TC10 드래그 엔 드롭 테스트
+def test_drag_and_drop(page, api_request): #TC5 드래그 엔 드롭 테스트
     kanban_page = KanbanPage(page)
     login_page = LoginPage(page)
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))

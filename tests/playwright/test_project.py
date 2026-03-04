@@ -4,7 +4,7 @@ from playwright.sync_api import expect
 import os
 from faker import Faker
 
-def test_create_project(page, api_request): #TC5 프로젝트 생성 테스트
+def test_create_project(page, api_request): #TC7 프로젝트 생성 테스트
 
     api_url = (os.getenv("API_URL"))
     project_page = ProjectPage(page)
