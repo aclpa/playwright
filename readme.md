@@ -68,6 +68,36 @@ ISO 29119-4
 ├── 📁 media/                     # 스크린샷 및 디버그 이미지 샘플
 └── 📁 testim/healing/            # 자가 복구 시 자동 생성되는 힐링 이미지
 ```
+명세
+ERP 일부 기능인 프로젝트 생성 이라는 테스트 항목이 있고 테스트 베이시스는 다음과 같다.
+프로젝트 생성 기능은 사용자가 관리할 프로젝트를 생성하도록 해 준다. 프로젝트 생성은 
+프로젝트 필드에서 프로젝트 생성 버튼을 누른 뒤 프로젝트 필드 칸을 채운다.프로젝트 필드로는 프로젝트 이름,프로젝트 키,프로젝트 설명, 상태,팀,시작-종료일,배포 URL을 설정할 수 있다.
+프로젝트를 생성하면 DB에 저장되 등록된 팀은 프로젝트를 관리할 수 있다.
+
+일반적 시나리오
+
+-프로젝트 생성
+
+대체 시나리오
+-다음과 같은 이유로 프로젝트 생성에 실패함.
+
+-프로젝트 이름 누락
+
+-프로젝트 키 누락
+
+-중복된 프로젝트 키
+
+-팀 선택 누락
+
+비고 프로젝트 이름은 중복가능, 배포 URL 시작-종료일,프로젝트 설명은 누락가능하다.
+
+스텝 1 :기능 세트 식별(TD1)
+
+FS1 = 프로젝트 생성 기능
+
+스텝 2 : 테스트 컨디션 도출(TD2)
+
+다음 모델의 예는 이벤트 흐름 다이어그램이다. 이 표기법에서 성공 흐름은 파란색 선으로 표시되어 있고, 테스트 시작과 종료 시점이 명시되어 있으며, 각 액션은 고유 ID가 있어 사용자(U) 시스템(S)로 지정한다.
 
 ### TC 프로젝트 생성 기능의 이벤트 흐름 다이어그램
 ```mermaid
@@ -82,45 +112,64 @@ flowchart LR
     Start([테스트 시작])
     End([테스트 종료])
 
+    U1(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U1<br>NEW PROJECT<br>버튼 클릭</div>")):::user
+    U2(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U2<br>프로젝트 필드<br>입력</div>")):::user
+    U3(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U3<br>CREATE<br>입력</div>")):::user
+    U2.1(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U2.1<br>CANCEL<br>입력</div>")):::user
 
-    U1(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U1<br>아이디/비밀번호<br>입력</div>")):::user
-    U2(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U2<br>Projects<br>카테고리 클릭</div>")):::user
-    U3(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U3<br>NEW PROJECT<br>버튼 클릭</div>")):::user
-    U4(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U4<br>프로젝트 필드칸<br>입력</div>")):::user
-    U5(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U5<br>프로젝트 선택<br>입력</div>")):::user
-    U6(("<div style='width:150px; height:60px; display:flex; justify-content:center; align-items:center; text-align:center;'>U6<br>프로젝트 delete 선택</div>")):::user
-
-    S1.1["S1.1 시스템 로그인 수락"]:::system 
-    S1.2["S1.2 시스템 로그인 거부"]:::system
-    S2.1["S2.1 시스템 프로젝트 생성"]:::system
-    S2.2["S2.2 이름 입력 누락"]:::system
-    S2.3["S2.3 키 입력 누락"]:::system 
-    S2.4["S2.4 키 중복 에러"]:::system
-    S2.5["S2.5 Team 선택 누락"]:::system
-    S3["S3 프로젝트 삭제 /projects로 리디렉션"]:::system
+    S1.1["S1.1  프로젝트 필드 출력"]:::system
+    S1.2["S1.2 이름 입력 누락"]:::system
+    S1.3["S1.3 키 입력 누락"]:::system 
+    S1.4["S1.4 키 중복 에러"]:::system
+    S1.5["S1.5 Team 선택 누락"]:::system
+    S2["S2 프로젝트 생성"]:::system
     
-    Start --> U1
+    Start ==> U1
     U1  ==> S1.1
     S1.1 ==> U2
     U2 ==> U3
-    U3 ==> U4
-    U4 ==> S2.1
-    S2.1 ==> U5
-    U5 ==> U6
-    U6 ==> S3
-    S3 ==> End
-    
-    U1 --> S1.2
-    U4 <-- 에러/리턴 --> S2.2  
-    U4 <-- 에러/리턴 --> S2.3  
-    U4 <-- 에러/리턴 --> S2.4  
-    U4 <-- 에러/리턴 --> S2.5  
-
+    U3 ==> S2 ==> End
+ 
+    U2 <-- 에러/리턴 --> S1.2  
+    U2 <-- 에러/리턴 --> S1.3  
+    U2 <-- 에러/리턴 --> S1.4  
+    U2 <-- 에러/리턴 --> S1.5  
+    U2 --실패-->U2.1 -->U1
      
-    
-    linkStyle 1,2,3,4,5,6,7,8,9 stroke-width:4px,stroke:blue;
-    linkStyle 10,11,12,13,14 stroke-width:4px,stroke:red;
+    linkStyle 0,1,2,3,4,5 stroke-width:4px,stroke:blue;
+    linkStyle 6,7,8,9,10,11 stroke-width:4px,stroke:red;
+
 ```
+테스트 컨디션
 
+TC COND1 : 프로젝트 생성 성공(U1,S1.1,U2,U3,S2)
 
+TC COND2 : 프로젝트 이름 누락(U1,S1.1,U2,S1.2)
 
+TC COND3 : 프로젝트 키 누락(U1,S1.1,U2,S1.3)
+
+TC COND4 : 프로젝트 키 중복(U1,S1.1,U2,S1.4)
+
+TC COND5 : 팀 선택 누락(U1,S1.1,U2,S1.5)
+
+TC COND6 : CANCEL 선택(U1,S1.1,U2,U2.1)
+
+TC COND7 : CREATE 선택(U1,S1.1,U2,U3)
+
+스텝 3 : 테스트 커버리지 항목 도출(TD3)
+
+TC COVER1 = TC COND1
+
+TC COVER2 = TC COND2
+
+TC COVER3 = TC COND3
+
+TC COVER4 = TC COND4
+
+TC COVER5 = TC COND5
+
+TC COVER6 = TC COND6
+
+TC COVER7 = TC COND7
+
+스텝 4 : 테스트 케이스 도출(TD4)
