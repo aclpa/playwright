@@ -2,14 +2,20 @@ from pages.kanban_page import KanbanPage
 from pages.login_page import LoginPage
 from playwright.sync_api import expect
 import os
+from faker import Faker
 
 def test_drag_and_drop(page, api_request): #TC5 드래그 엔 드롭 테스트
     kanban_page = KanbanPage(page)
     login_page = LoginPage(page)
+    fake = Faker()
+    test_team = fake.lexify(text="????")
+    test_project = fake.lexify(text="????")
+    test_project_key = fake.lexify(text="????").upper()
+    test_issue = fake.lexify(text="????")
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
 
     team_data = {
-        "name": "test_team",
+        "name": test_team,
         "member_ids": [1]
         }
     team_response=api_request.post("api/v1/teams",data=team_data) 
@@ -18,23 +24,23 @@ def test_drag_and_drop(page, api_request): #TC5 드래그 엔 드롭 테스트
 
 
     project_data = {
-        "name": "test_kanban_api",
-        "key": "TESTAPI",
+        "name": test_project,
+        "key": test_project_key,
         "team_id": team_id
         }
     project_response=api_request.post("api/v1/projects",data=project_data) 
-    assert team_response.ok, f"프로젝트 생성 실패: {project_response.status}"
+    assert project_response.ok, f"프로젝트 생성 실패: {project_response.status}"
     project_id = project_response.json().get("id")
 
 
     issue_data = {
-    "title": "drag_and_drop_test",
+    "title": test_issue,
     "project_id": project_id
     }
     api_request.post("api/v1/issues",data=issue_data) 
 
     kanban_page.navigate("#/kanban")
-    kanban_page.drag_and_drop()
+    kanban_page.drag_and_drop(test_issue)
 
     delete_api=api_request.delete(f"api/v1/teams/{team_id}")
     expect(delete_api).to_be_ok()

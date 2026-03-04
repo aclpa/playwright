@@ -8,7 +8,6 @@ def test_create_team(page, api_request): #TC9 팀 생성 테스트
     
     team_page = TeamPage(page)
     login_page = LoginPage(page)
-    api_url = (os.getenv("API_URL"))
     fake = Faker()
     team_name = fake.lexify(text="????")
 

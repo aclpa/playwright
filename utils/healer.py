@@ -79,7 +79,7 @@ class HealingReport:
         print(f"  상태           : {status}")
         print(f"  원본 Locator   : {self.original_locator}")
         print(f"  타겟 텍스트    : {self.target_text}")
-        print(f"  복구 방법      : {self.method}")
+        print(f"  복구 방법      : {self.target_text}")
         if self.clicked_coords:
             print(f"  클릭 좌표      : x={self.clicked_coords[0]}, y={self.clicked_coords[1]}")
         if self.final_score:

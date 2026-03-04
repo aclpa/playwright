@@ -19,6 +19,9 @@ pip3 install -r requirements.txt
 pip install ultralytics
 데이터 학습
 yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=100 imgsz=1024 device=0 batch=4 workers=0 exist_ok=True
+해결한 점
+해결 못한 문제
+개발 방법
 
 ### TC 프로젝트 생성 기능의 이벤트 흐름 다이어그램
 ```mermaid
