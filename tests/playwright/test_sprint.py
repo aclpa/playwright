@@ -9,10 +9,10 @@ def test_create_sprint(page, api_request): #TC8 스프린트 생성 테스트
     sprint_page = SprintPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    sprint_name = fake.lexify(text="????")
-    test_team = fake.lexify(text="????")
-    test_project = fake.lexify(text="????")
-    test_project_key = fake.lexify(text="????").upper()
+    sprint_name = fake.lexify(text="sprint????")
+    test_team = fake.lexify(text="team????")
+    test_project = fake.lexify(text="project????")
+    test_project_key = fake.lexify(text="KEY????").upper()
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
 
     team_data = {

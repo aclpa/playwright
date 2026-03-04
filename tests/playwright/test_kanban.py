@@ -8,10 +8,10 @@ def test_drag_and_drop(page, api_request): #TC5 드래그 엔 드롭 테스트
     kanban_page = KanbanPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    test_team = fake.lexify(text="????")
-    test_project = fake.lexify(text="????")
-    test_project_key = fake.lexify(text="????").upper()
-    test_issue = fake.lexify(text="????")
+    test_team = fake.lexify(text="TEA????")
+    test_project = fake.lexify(text="PRO????")
+    test_project_key = fake.lexify(text="KOQ????").upper()
+    test_issue = fake.lexify(text="ISS????")
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
 
     team_data = {
