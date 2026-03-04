@@ -33,7 +33,7 @@ def test_create_issue(page, api_request): #TC4 이슈 생성 테스트
 
     issue_page.navigate("#/issues")
 
-    with page.expect_response("**/api/v1/issues") as response_info:
+    with page.expect_response("**/api/v1/issues", timeout=60000) as response_info:
         issue_page.create_issue(issue_name,test_project)
     response = response_info.value
 

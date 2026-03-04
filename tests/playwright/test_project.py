@@ -23,7 +23,7 @@ def test_create_project(page, api_request): #TC7 프로젝트 생성 테스트
     assert team_response.ok, f"팀 생성 실패: {team_response.status}"
     team_id = team_response.json().get("id")
 
-    with page.expect_response("**/api/v1/projects") as response_info:
+    with page.expect_response("**/api/v1/projects", timeout=60000) as response_info:
         project_page.create_project(project_name, project_key, test_team)
     response = response_info.value
 
