@@ -4,11 +4,15 @@ import os
 import time
 import urllib.request
 from urllib.error import URLError
+import pytest
+from typing import Generator
+from playwright.sync_api import Playwright, APIRequestContext
 
 load_dotenv()
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
+
     return {
         **browser_context_args,
         "viewport": {"width": 1280, "height": 720},
@@ -20,56 +24,44 @@ def browser_context_args(browser_context_args):
         ),
     }
 
-
-@pytest.fixture(scope="session")
-def api(playwright):
-    api_url = os.getenv("API_URL")
-    temp_context = playwright.request.new_context(base_url=api_url)
-    login_response = temp_context.post(
-        "api/v1/auth/login", 
-        data={
-            "email": os.getenv("ADMIN_EMAIL"),
-            "password": os.getenv("ADMIN_PASS")
-        }
-    )
-    access_token = login_response.json().get("access_token")
-    auth_context = playwright.request.new_context(
-        base_url=api_url,
-        extra_http_headers={
-            "Authorization": f"Bearer {access_token}",
-            "Accept": "application/json"
-        }
-    )
-    yield auth_context
-    auth_context.dispose()
-    temp_context.dispose()
-
-
 @pytest.fixture(scope="session", autouse=True)
 def wait_for_server_ready():
-    
-    # 환경 변수에서 프론트엔드 주소를 가져옵니다. (기본값 설정)
-    target_url = os.getenv("BASE_URL")
-    
-    print(f"\n⏳ [Smart Polling] 서버가 켜질 때까지 대기 중... ({target_url})")
 
-    max_retries = 30  # 최대 30번 찔러보기
-    wait_seconds = 10 # 한 번 찔러보고 10초 쉬기 (총 5분 대기)
+    target_url = os.getenv("BASE_URL")
+    max_retries = 30  
+    wait_seconds = 10 
 
     for i in range(max_retries):
         try:
-            # 5초 안에 응답이 오는지 서버의 문을 두드려 봅니다.
             response = urllib.request.urlopen(target_url, timeout=5)
-            
             if response.getcode() == 200:
-                print(f"\n서버 준비 완료 ({i+1}번 시도 만에 접속 성공. 테스트를 시작합니다)")
-                return  # 👈 접속 성공 시, 여기서 대기를 끝내고 즉시 테스트 시작!
-                
+                print(f"\n서버 준비 완료 ({i+1}번 시도 만에 접속 성공.)")
+                return 
         except URLError:
-            # 서버가 아직 켜지는 중이라 접속이 거부된 경우입니다. 당황하지 않고 넘어갑니다.
             pass
-            
-        print(f"[{i+1}/{max_retries}] 아직 서버가 준비되지 않았습니다. {wait_seconds}초 후 재시도...")
+        print(f"[{i+1}/{max_retries}] 아직 서버가 준비되지 않았습니다. {wait_seconds}초 후 재시도")
         time.sleep(wait_seconds)
-
     pytest.fail("5분이 지났지만 서버가 응답하지 않습니다.")
+
+
+@pytest.fixture(scope="session")
+def api_request(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
+
+    api_url = (os.getenv("API_URL"))
+    login_request = playwright.request.new_context(base_url=api_url)
+    login_data = {
+        "email": os.getenv("ADMIN_EMAIL"),
+        "password": os.getenv("ADMIN_PASS")
+    }
+    response=login_request.post(f"{api_url}api/v1/auth/login", data=login_data)
+    ACCESS_TOKEN=response.json().get("access_token")
+    login_request.dispose()
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}",
+        "Accept": "application/json"
+    }
+    request_context = playwright.request.new_context(
+        base_url=(os.getenv("BASE_URL")),extra_http_headers=headers
+    )
+    yield request_context
+    request_context.dispose()
