@@ -22,8 +22,8 @@ yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=100 imgsz=102
 해결한 점
 해결 못한 문제
 개발 방법
-## 📁 파일 구조
 
+## 📁 파일 구조
 ```
 📦 프로젝트 루트
 ├── 📄 data.yaml                  # YOLO 학습 데이터셋 설정 (9개 클래스)
@@ -67,9 +67,6 @@ yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=100 imgsz=102
 ├── 📁 media/                     # 스크린샷 및 디버그 이미지 샘플
 └── 📁 testim/healing/            # 자가 복구 시 자동 생성되는 힐링 이미지
 ```
-
----
-
 
 ### TC 프로젝트 생성 기능의 이벤트 흐름 다이어그램
 ```mermaid
