@@ -288,8 +288,8 @@ class AIHealer:
         candidates.sort(key=lambda c: c[0], reverse=True)
         final_s, char_s, semantic_s, cx, cy, class_id, ocr_text, (x1,y1,x2,y2) = candidates[0]
 
-        if final_s < 0.5:
-            print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.5) 미달")
+        if final_s < 0.3:
+            print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.3) 미달")
             return None, "", debug_img, {} # ✨ 4개만 반환
 
         cv2.rectangle(debug_img, (x1, y1), (x2, y2), (0, 0, 255), 2)

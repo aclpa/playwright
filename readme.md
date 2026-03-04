@@ -22,6 +22,7 @@ yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=100 imgsz=102
 해결한 점
 해결 못한 문제
 개발 방법
+ISO 29119-4
 
 ## 📁 파일 구조
 ```
