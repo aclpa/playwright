@@ -122,7 +122,7 @@ class AIHealer:
         screenshot_dir: str = "testim/healing",
         ocr_lang: list = None,
         timeout: int = 5000,
-        conf: float = 0.45,
+        conf: float = 0.336,
     ):
         self.page = page
         self.timeout = timeout

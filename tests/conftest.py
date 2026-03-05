@@ -37,12 +37,12 @@ def wait_for_server_ready():
         for i in range(max_retries):
             try:
                 response = urllib.request.urlopen(target_url, timeout=5)
-                if response.getcode() == 200:
+                if response.getcode() < 300:
                     print(f"\n서버 준비 완료: {target_url} ({i+1}번 시도)")
                     break
-            except URLError:
+            except Exception as e:
                 pass
-            print(f"[{i+1}/{max_retries}] 대기 중: {target_url}, {wait_seconds}초 후 재시도")
+            print(f"[{i+1}/{max_retries}] 대기 중: {target_url}, 원인 {e} {wait_seconds}초 후 재시도")
             time.sleep(wait_seconds)
         else:
             pytest.fail(f"5분이 지났지만 서버가 응답하지 않습니다: {target_url}")
