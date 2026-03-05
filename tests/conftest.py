@@ -44,7 +44,7 @@ def wait_for_server_ready():
     pytest.fail("5분이 지났지만 서버가 응답하지 않습니다.")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def api_request(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
 
     api_url = (os.getenv("API_URL"))
