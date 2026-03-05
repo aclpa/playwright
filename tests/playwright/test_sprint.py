@@ -29,7 +29,7 @@ def test_create_sprint(page, api_request): #TC8 스프린트 생성 테스트
         "team_id": team_id
         }
     project_response=api_request.post("api/v1/projects",data=project_data) 
-    assert team_response.ok, f"프로젝트 생성 실패: {project_response.status}"
+    assert project_response.ok, f"프로젝트 생성 실패: {project_response.status}"
 
     sprint_page.navigate("#/sprints")
     with page.expect_response("**/api/v1/sprints", timeout=60000) as response_info:
