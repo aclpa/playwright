@@ -122,7 +122,7 @@ class AIHealer:
         screenshot_dir: str = "testim/healing",
         ocr_lang: list = None,
         timeout: int = 5000,
-        conf: float = 0.336,
+        conf: float = 0.8,
     ):
         self.page = page
         self.timeout = timeout
@@ -288,7 +288,7 @@ class AIHealer:
         candidates.sort(key=lambda c: c[0], reverse=True)
         final_s, char_s, semantic_s, cx, cy, class_id, ocr_text, (x1,y1,x2,y2) = candidates[0]
 
-        if final_s < 0.3:
+        if final_s < 0.336:
             print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.3) 미달")
             return None, "", debug_img, {} # ✨ 4개만 반환
 
