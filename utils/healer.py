@@ -89,8 +89,8 @@ class HealingReport:
         if self.clicked_coords:
             print(f"  클릭 좌표      : x={self.clicked_coords[0]}, y={self.clicked_coords[1]}")
         if self.final_score:
-            print(f"  유사도         : 글자 {self.char_score:.2f}×0.4 "
-              f"+ 의미 {self.semantic_score:.2f}×0.6 = {self.final_score:.2f}")
+            print(f"  유사도         : 글자 {self.char_score:.2f}×0.7 "
+              f"+ 의미 {self.semantic_score:.2f}×0.3 = {self.final_score:.2f}")
             if not is_truly_success and self.final_score > 0:      # ✅ 미달 이유 출력
                 print(f"  판정 기준      : {self.final_score:.2f} < {THRESHOLD} (임계값 미달)")
         if self.suggested_locator:
@@ -297,7 +297,7 @@ class AIHealer:
         final_s, char_s, semantic_s, cx, cy, class_id, ocr_text, (x1,y1,x2,y2) = candidates[0]
 
         if final_s < 0.5:
-            print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.3) 미달")
+            print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.5) 미달")
             return None, "", debug_img, {} # ✨ 4개만 반환
 
         cv2.rectangle(debug_img, (x1, y1), (x2, y2), (0, 0, 255), 2)
