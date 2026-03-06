@@ -33,19 +33,18 @@ def wait_for_server_ready():
     max_retries = 30
     wait_seconds = 10
 
-    for target_url in targets:
+    for target_url in targets:   
         for i in range(max_retries):
             try:
-                response = urllib.request.urlopen(target_url, timeout=5)
-                if response.getcode() < 300:
+                response = urllib.request.urlopen(target_url, timeout=120)
+                if response.getcode() == 200:
                     print(f"\n서버 준비 완료: {target_url} ({i+1}번 시도)")
                     break
             except Exception as e:
-                pass
-            print(f"[{i+1}/{max_retries}] 대기 중: {target_url} {e} {wait_seconds}초 후 재시도")
-            time.sleep(wait_seconds)
-        else:
-            pytest.fail(f"5분이 지났지만 서버가 응답하지 않습니다: {target_url}")
+                print(f"[{i+1}/{max_retries}] 대기 중: {target_url} ({e})")
+                time.sleep(wait_seconds)
+        else:                   
+            pytest.fail(f"서버가 응답하지 않습니다: {target_url}")
 
 
 @pytest.fixture(scope="module")
