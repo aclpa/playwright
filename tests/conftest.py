@@ -42,7 +42,7 @@ def wait_for_server_ready():
                     break
             except Exception as e:
                 pass
-            print(f"[{i+1}/{max_retries}] 대기 중: {target_url}, 원인 {e} {wait_seconds}초 후 재시도")
+            print(f"[{i+1}/{max_retries}] 대기 중: {target_url} {e} {wait_seconds}초 후 재시도")
             time.sleep(wait_seconds)
         else:
             pytest.fail(f"5분이 지났지만 서버가 응답하지 않습니다: {target_url}")
