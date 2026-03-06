@@ -282,7 +282,7 @@ API_DELETE (테스트 데이터 정리)
 
 ---
 ##  임계값 고찰
-[그래프](.docs/train_graph.md)
+[그래프](./docs/train_graph.md)
 
 #healer.py 118,119라인
 CHAR_WEIGHT     = 0.7 # 단어 유사도 가중치
