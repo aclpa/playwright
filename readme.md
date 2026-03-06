@@ -165,7 +165,7 @@ OCR  — YOLO가 탐지한 각 요소 영역 안의 텍스트를 추출
         │
         ▼
 NLP  — OCR로 추출한 텍스트와 pages에서 입력한 목표 텍스트의 유사도를 계산
-       0.4 × 글자 유사도 + 0.6 × 의미 유사도 = 최종 점수
+       7 × 글자 유사도 + 0.3 × 의미 유사도 = 최종 점수
        임계값(0.336) 초과 시 해당 요소의 좌표를 Playwright에 전달하여 클릭
 ```
 
@@ -282,34 +282,34 @@ API_DELETE (테스트 데이터 정리)
 
 ---
 ##  임계값 고찰
+[그래프](.docs/train_graph.md)
 
-```
-Playwright Locator 실패
-        │
-        ▼
-  스크린샷 촬영 & 저장
-  (testim/healing/healing_*.png)
-        │
-        ▼
-  YOLOEngine.detect()
-  → 화면 내 모든 UI 요소 바운딩 박스 추출
-        │
-        ▼
-  각 요소에 대해:
-    OCREngine.readtext(crop)   → 텍스트 추출
-    NLPEngine.semantic_score() → 의미 유사도
-    _char_similarity()         → 글자 유사도
-    final = char×0.4 + semantic×0.6
-        │
-        ▼
-  final_score ≥ 0.5 ?
-    YES → 해당 좌표 마우스 클릭
-    NO  → RuntimeError 발생 (복구 실패)
-        │
-        ▼
-  HealingReport 출력
-  (좌표, 유사도, 추천 Locator, 소요 시간)
-```
+#healer.py 118,119라인
+CHAR_WEIGHT     = 0.7 # 단어 유사도 가중치
+SEMANTIC_WEIGHT = 0.3 # 의미 유사도 가중치
+근거 : 우선 각 로케이터마다 중요한 요소가 다르다. 
+
+팀 이름같이 faker 라이브러리로 생성한 임시 데이터를 구별할땐 단어 유사도가 중요하다.
+
+하지만 어플리케이션의 button[has-text:CANCEL]과 같이 고정된 값을 읽을땐 유사도가 중요하다.
+
+왜냐하면 개발자가 CANCEL을 drop,revoke,취소,되돌리기와 같은유사한 텍스트로 바꿀 경우가 많기 때문이다. 
+
+하지만 지금 테스트는 팀 이름, 프로젝트 이름과 같은 테스트를 할때 오류가 나는 경우가 빈번하다.
+
+그러므로 현재 erp 요소를 바꿀 일이 없기에 단어 유사도의 가중치를 높게 잡았다. 
+
+하지만 실제 테스트에선 의미의 유사도가 중요하다고 생각이 된다.
+
+erp frontend를 변경해가며 학습데이터를 더 얻어야 정확한 임계값 설정이 가능하다고 생각한다.
+
+#healer.py 133라인
+conf: float = 0.6, # UI 탐지 임계값
+
+#healer.py 299라인
+if final_s < 0.5: # 최종 유사도 임계값
+
+
 
 
 
