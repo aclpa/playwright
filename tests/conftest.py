@@ -33,7 +33,7 @@ def wait_for_server_ready():
     max_retries = 30
     wait_seconds = 10
 
-    for target_url in targets:   
+    for target_url in targets:       
         for i in range(max_retries):
             try:
                 response = urllib.request.urlopen(target_url, timeout=120)
@@ -43,7 +43,7 @@ def wait_for_server_ready():
             except Exception as e:
                 print(f"[{i+1}/{max_retries}] 대기 중: {target_url} ({e})")
                 time.sleep(wait_seconds)
-        else:                   
+        else:                         
             pytest.fail(f"서버가 응답하지 않습니다: {target_url}")
 
 
