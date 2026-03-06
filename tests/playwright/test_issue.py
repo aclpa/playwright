@@ -9,10 +9,10 @@ def test_create_issue(page, api_request): #TC4 이슈 생성 테스트
     issue_page = IssuePage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    issue_name = fake.lexify(text="????")
-    test_team = fake.lexify(text="????")
-    test_project = fake.lexify(text="????")
-    test_project_key = fake.lexify(text="????").upper()
+    issue_name = fake.lexify(text="!!????!!")
+    test_team = fake.lexify(text="##????##")
+    test_project = fake.lexify(text="@@????@@")
+    test_project_key = fake.lexify(text="??999??").upper()
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
 
     team_data = {
@@ -32,7 +32,7 @@ def test_create_issue(page, api_request): #TC4 이슈 생성 테스트
     assert project_response.ok, f"프로젝트 생성 실패: {project_response.status}"
 
     issue_page.navigate("#/issues")
-
+    page.wait_for_load_state("networkidle")
     with page.expect_response("**/api/v1/issues", timeout=60000) as response_info:
         issue_page.create_issue(issue_name,test_project)
     response = response_info.value

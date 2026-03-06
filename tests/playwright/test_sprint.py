@@ -9,10 +9,10 @@ def test_create_sprint(page, api_request): #TC8 스프린트 생성 테스트
     sprint_page = SprintPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    sprint_name = fake.lexify(text="????")
-    test_team = fake.lexify(text="????")
-    test_project = fake.lexify(text="????")
-    test_project_key = fake.lexify(text="????").upper()
+    sprint_name = fake.lexify(text="$$????$$")
+    test_team = fake.lexify(text="##????##")
+    test_project = fake.lexify(text="@@????@@")
+    test_project_key = fake.lexify(text="??999??").upper()
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
 
     team_data = {
@@ -32,6 +32,7 @@ def test_create_sprint(page, api_request): #TC8 스프린트 생성 테스트
     assert project_response.ok, f"프로젝트 생성 실패: {project_response.status}"
 
     sprint_page.navigate("#/sprints")
+    page.wait_for_load_state("networkidle")
     with page.expect_response("**/api/v1/sprints", timeout=60000) as response_info:
         sprint_page.create_sprint(sprint_name, test_project)
     response = response_info.value

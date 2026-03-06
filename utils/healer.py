@@ -72,19 +72,27 @@ class HealingReport:
 
     def log(self):
         border = "=" * 65
-        status = "✅ 자가 복구 성공" if self.success else "❌ 자가 복구 실패"
+    
+
+        THRESHOLD = 0.75
+        is_truly_success = self.success and self.final_score >= THRESHOLD
+    
+        status = "✅ 자가 복구 성공" if is_truly_success else "❌ 자가 복구 실패"
         print(f"\n{border}")
         print(f"  🔧 AI 자가 복구 리포트")
         print(border)
         print(f"  상태           : {status}")
         print(f"  원본 Locator   : {self.original_locator}")
         print(f"  타겟 텍스트    : {self.target_text}")
-        print(f"  복구 방법      : {self.target_text}")
+        if self.method:
+            print(f"  복구 방법      : {self.method}")
         if self.clicked_coords:
             print(f"  클릭 좌표      : x={self.clicked_coords[0]}, y={self.clicked_coords[1]}")
         if self.final_score:
             print(f"  유사도         : 글자 {self.char_score:.2f}×0.4 "
-                  f"+ 의미 {self.semantic_score:.2f}×0.6 = {self.final_score:.2f}")
+              f"+ 의미 {self.semantic_score:.2f}×0.6 = {self.final_score:.2f}")
+            if not is_truly_success and self.final_score > 0:      # ✅ 미달 이유 출력
+                print(f"  판정 기준      : {self.final_score:.2f} < {THRESHOLD} (임계값 미달)")
         if self.suggested_locator:
             print(f"  추천 Locator   : {self.suggested_locator}")
         if self.screenshot_path:

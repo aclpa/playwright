@@ -9,12 +9,11 @@ def test_create_project(page, api_request): #TC7 프로젝트 생성 테스트
     project_page = ProjectPage(page)
     login_page = LoginPage(page)
     fake = Faker()
-    project_name = fake.lexify(text="PROJECT????")
-    project_key = fake.lexify(text="KET?????").upper()
-    test_team = fake.lexify(text="TEAM????")
+    project_name = fake.lexify(text="@@????@@")
+    project_key = fake.lexify(text="??999??").upper()
+    test_team = fake.lexify(text="##????##")
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))
-    project_page.navigate("#/projects")
-
+    
     team_data = {
         "name": test_team,
         "member_ids": [1]
@@ -23,6 +22,8 @@ def test_create_project(page, api_request): #TC7 프로젝트 생성 테스트
     assert team_response.ok, f"팀 생성 실패: {team_response.status}"
     team_id = team_response.json().get("id")
 
+    project_page.navigate("#/projects")
+    page.wait_for_load_state("networkidle")
     with page.expect_response("**/api/v1/projects", timeout=60000) as response_info:
         project_page.create_project(project_name, project_key, test_team)
     response = response_info.value
