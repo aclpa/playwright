@@ -1,7 +1,11 @@
 ## 시나리오 테스트 명세 
 
 > **테스트 항목:** ERP 기능 내 **[프로젝트 생성]**
-> **테스트 목적:** 사용자가 명세된 기준에 따라 정상적으로 프로젝트를 생성할 수 있는지 검증하고, 예외 상황에서 시스템이 올바르게 방어하는지 확인합니다.
+- ERP 일부 기능인 프로젝트 생성 이라는 테스트 항목이 있고 테스트 베이시스는 다음과 같다.
+- 프로젝트 생성 기능은 사용자가 관리할 프로젝트를 생성하도록 해 준다. 
+- 프로젝트 생성은 프로젝트 필드에서 프로젝트 생성 버튼을 누른 뒤 프로젝트 필드 칸을 채운다.
+- 프로젝트 필드로는 프로젝트 이름,프로젝트 키,프로젝트 설명, 상태,팀,시작-종료일,배포 URL을 설정할 수 있다.
+- 프로젝트를 생성하면 DB에 저장되 등록된 팀은 프로젝트를 관리할 수 있다.
 
 ### 1. 테스트 베이시스 (Test Basis)
 프로젝트 생성 기능은 사용자가 관리할 프로젝트를 생성하도록 지원합니다. 
@@ -37,7 +41,9 @@ flowchart LR
 
     classDef user fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
     classDef system fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
-    
+    classDef error fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000
+    classDef success fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000
+   
     Start([테스트 시작])
     End([테스트 종료])
 
@@ -48,7 +54,7 @@ flowchart LR
 
     S1.1["S1.1  프로젝트 필드 출력"]:::system
     S1.2["S1.2 이름 입력 누락"]:::system
-    S1.3["S1.3 키 입력 누락"]:::system 
+    S1.3["S1.3 키 입력 누락"]:::system
     S1.4["S1.4 키 중복 "]:::system
     S1.5["S1.5 키 소문자 입력 "]:::system
     S1.6["S1.6 키 숫자로 시작 "]:::system
@@ -56,7 +62,7 @@ flowchart LR
     S1.8["S1.8 키 특수문자 입력"]:::system
     S1.9["S1.9 Team 선택 누락"]:::system
     S2["S2 프로젝트 생성"]:::system
-    
+   
     Start ==> U1
     U1  ==> S1.1
     S1.1 ==> U2
@@ -69,7 +75,7 @@ flowchart LR
     U2 <-- 에러/리턴 --> S1.5
     U2 <-- 에러/리턴 --> S1.6
     U2 <-- 에러/리턴 --> S1.7
-    U2 <-- 에러/리턴 --> S1.8   
+    U2 <-- 에러/리턴 --> S1.8  
     U2 <-- 에러/리턴 --> S1.9  <--에러/리턴-->S2
 
     U2 --실패-->U2.1 -->U1
