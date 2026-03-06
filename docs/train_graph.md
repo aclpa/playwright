@@ -19,4 +19,6 @@ mAP50: IoU(Intersection over Union) 임계값 0.50에서 계산된 평균 정밀
 
 이 AI 모델은 정답 박스와 50% 이상 겹쳤을 때를 정답으로 쳐주면, 모든 UI 요소들을 종합적으로 찾아내는 능력이 평균 74.8점(0.748)입니다
 
+F1 = 2 × (Precision × Recall) / (Precision + Recall)
+
 ![confidence](/media/confidence.png)
