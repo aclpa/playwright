@@ -115,8 +115,8 @@ class AIHealer:
     3개 엔진 모두 싱글톤 공유 → 테스트 세션 내 각 1회만 로드.
     """
 
-    CHAR_WEIGHT     = 0.4
-    SEMANTIC_WEIGHT = 0.6
+    CHAR_WEIGHT     = 0.7
+    SEMANTIC_WEIGHT = 0.3
 
     CLASS_TO_ROLE = {
         0: "button", 1: "input", 2: "a",
@@ -130,7 +130,7 @@ class AIHealer:
         screenshot_dir: str = "testim/healing",
         ocr_lang: list = None,
         timeout: int = 5000,
-        conf: float = 0.8,
+        conf: float = 0.6,
     ):
         self.page = page
         self.timeout = timeout
@@ -296,7 +296,7 @@ class AIHealer:
         candidates.sort(key=lambda c: c[0], reverse=True)
         final_s, char_s, semantic_s, cx, cy, class_id, ocr_text, (x1,y1,x2,y2) = candidates[0]
 
-        if final_s < 0.336:
+        if final_s < 0.5:
             print(f"    ⚠️  앙상블 점수 {final_s:.2f} — 임계값(0.3) 미달")
             return None, "", debug_img, {} # ✨ 4개만 반환
 
