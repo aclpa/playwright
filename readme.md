@@ -4,7 +4,7 @@ ISO 29119-4 기반 시나리오 테스팅을 기반으로 테스트 케이스를
 또한 Playwright Locator가 실패해도 **YOLO + OCR + NLP** 세 가지 AI 엔진이 화면을 직접 보고
 스스로 UI 요소를 찾아 복구하는 E2E 테스트 프레임워크입니다.
 
-기술 기반은 QA SaaS 프로그램인 Testim, Mabl, Functionize 등의 Self-Healing의 일부 기능을 직접 구현해보고자 제작하였습니다.
+기술 기반은 QA SaaS 프로그램인 Testim, Mabl, Functionize 등의 Self-Healing의 일부 기능을 구현해보고자 제작하였습니다.
 
 ---
 
@@ -29,7 +29,7 @@ ISO 29119-4 기반 시나리오 테스팅을 기반으로 테스트 케이스를
 
 | 항목 | 내용 |
 |---|---|
-| **테스트 케이스** | Project 생성 시나리오 테스트 [전체 TC 보기](./docs/scenario_test.md) |
+| **테스트 케이스** | Project 생성 시나리오 테스트 [시나리오 테스트 케이스](./docs/scenario_test.md) |
 | **테스트 대상** | https://erp-sut.vercel.app //팀 프로젝트로 개발한 ERP 웹 어플리케이션(실행 방법 카테고리에 아이디와 비밀번호 있습니다.) 첫 실행하는데 1-2분 소요 사이트 종료 후 재실행이 필요할 수도있습니다. |
 | **테스트 프레임워크** | Playwright + pytest |
 | **프로젝트 흐름** | 명세서 및 시나리오 TC 작성 -> playwright  locator 기반 테스트 -> api로 사전 셋업 -> AI 엔진 -> 리포트 |
