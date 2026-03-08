@@ -306,7 +306,7 @@ F1-Confidence Curve 기준 전체 클래스 F1 최적점은 **0.74 at conf 0.336
 F1은 Precision(오탐율)과 Recall(미탐율)의 균형 지표로,
 conf 0.336일 때 두 지표의 균형이 가장 좋습니다.
 
-input, link, button은 AP가 높아 conf를 0.3~0.4로 낮춰도 오탐이 적지만,
+input, link, button은 AP가 높아 conf를 0.3,0.4로 낮춰도 오탐이 적지만,
 AP가 0.5~0.6대인 나머지 클래스는 conf 0.5 이하에서 오탐율이 급격히 증가합니다.
 따라서 AP가 낮은 클래스의 오탐을 억제하기 위해 **conf 0.6**을 선택하였습니다.
 
