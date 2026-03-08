@@ -3,9 +3,7 @@ from playwright.sync_api import expect
 import os
 
 
-
 def test_mock_the_fruit_api(page):
-    api_url  = os.getenv("API_URL")
     login_page = LoginPage(page)
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))    
     
@@ -31,3 +29,5 @@ def test_mock_the_fruit_api(page):
     login_page.navigate("#/teams")
     # Assert that the Strawberry fruit is visible
     expect(page.get_by_text("Strawberry")).to_be_visible()
+
+
