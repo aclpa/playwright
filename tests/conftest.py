@@ -51,20 +51,20 @@ def wait_for_server_ready():
 def api_request(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
 
     api_url = (os.getenv("API_URL"))
-    login_request = playwright.request.new_context(base_url=api_url)
+    login_request = playwright.request.new_context(base_url=api_url) #백엔드와 통신용 기본 메서드 base_url에 .env api_url 삽입
     login_data = {
         "email": os.getenv("ADMIN_EMAIL"),
         "password": os.getenv("ADMIN_PASS")
-    }
-    response=login_request.post(f"{api_url}api/v1/auth/login", data=login_data)
-    ACCESS_TOKEN=response.json().get("access_token")
-    login_request.dispose()
-    headers = {
+    }                                                         
+    response=login_request.post("api/v1/auth/login", data=login_data) # 로그인 post 보내서 access_tkoen 받아오기
+    ACCESS_TOKEN=response.json().get("access_token") # 파이썬이 읽을 수 있는 json으로 변환한 뒤 access_token 가져옴
+    login_request.dispose() # 메모리 삭제
+    headers = { 
         "Authorization": f"Bearer {ACCESS_TOKEN}",
         "Accept": "application/json"
     }
     request_context = playwright.request.new_context(
-        base_url=(os.getenv("API_URL")),extra_http_headers=headers
+        base_url=api_url,extra_http_headers=headers # 기본 메서드에 headers
     )
-    yield request_context
+    yield request_context #test 로 보내기 위해 정지하고 반환
     request_context.dispose()
