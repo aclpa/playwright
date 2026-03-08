@@ -305,7 +305,7 @@ class AIHealer:
         cv2.putText(debug_img, f"TARGET:{ocr_text}[{final_s:.2f}]",
                     (x1, max(y1-10, 0)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2)
 
-        print(f"    ✅ '{ocr_text}': 글자 {char_s:.2f}×0.4 + 의미 {semantic_s:.2f}×0.6 = {final_s:.2f}")
+        print(f"    ✅ '{ocr_text}': 글자 {char_s:.2f}×0.7 + 의미 {semantic_s:.2f}×0.3 = {final_s:.2f}")
 
         suggested = self._suggest_locator(class_id, ocr_text, target_text)
         scores    = {"char": char_s, "semantic": semantic_s, "final": final_s}

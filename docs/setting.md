@@ -6,7 +6,7 @@ source .venv/bin/activate
 
 repomix .
 repomix . -o repomix_packaging\repomix-output.xml
-llm 패키징
+
 
 python3 -m pytest tests/playwright/test_auth.py --headed --slowmo 500 -s
 python3 -m pytest tests/playwright --headed --slowmo 500 -s
