@@ -3,13 +3,13 @@ from playwright.sync_api import expect
 import os
 
 
-def test_mock_the_fruit_api(page):
+def test_mock_the_team_api(page):
     login_page = LoginPage(page)
     login_page.api_login(os.getenv("ADMIN_EMAIL"), os.getenv("ADMIN_PASS"))    
     
     def handle(route, request):
         if request.method == "GET" and "/api/v1/teams" in request.url:
-            route.fulfill(json={
+            route.fulfill(json={ # route.fulfill = api 모킹 기능  (json = ())안에있는 내용을 백엔드와 통신하지않고 모킹 데이터를 불러옴 
                 "items": [{"id": 999, "name": "Strawberry", "slug": "strawberry", "avatar_url": None, "member_count": 1}],
                 "meta": {
                     "total": 1,
@@ -19,7 +19,7 @@ def test_mock_the_fruit_api(page):
                     "has_next": False,
                     "has_prev": False
             }
-        })
+        })      
         else:
             route.continue_()
     # Intercept the route to the fruit API
@@ -29,5 +29,10 @@ def test_mock_the_fruit_api(page):
     login_page.navigate("#/teams")
     # Assert that the Strawberry fruit is visible
     expect(page.get_by_text("Strawberry")).to_be_visible()
+
+
+
+
+    
 
 
