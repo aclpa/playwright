@@ -4,8 +4,8 @@ response = route.fetch()
 print(f" 응답: {response.json()}")
 route.fulfill(response=response)
 ```
-백엔드
+모니터링
 ```
-    page.on("request", lambda req: print(f" {req.method} {req.url}"))
-    page.on("response", lambda res: print(f" {res.status} {res.url}"))
+    page.on("request", lambda request: print(">>", request.method, request.url))
+    page.on("response", lambda response: print("<<", response.status, response.url))
 ```

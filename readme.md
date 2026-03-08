@@ -31,7 +31,16 @@ ISO 29119-4 기반 시나리오 테스팅을 기반으로 테스트 케이스를
 | **AI 엔진** | YOLOv8 (객체 탐지) + EasyOCR (텍스트 인식) + SentenceTransformer (의미 추론) |
 | **실행 환경** | Docker / GitHub Actions |
 
-상용 Self-Healing 동작 방식은 다음과 같습니다.
+playwright 구현 내용은 다음과 같습니다.
+
+1. 로그인 API
+2. OpenAPI Swagger 문서로 POST,DELETE E2E 테스트 사전 데이터 셋업
+3. team,project,login,profile,issue,sprint,kanban E2E 테스트
+4. 팀 페이지 request,response moking api 구현
+
+UI 테스트 구현 내용은 다음과 같습니다.
+
+우선 상용 Self-Healing 동작 방식은 다음과 같습니다.
 1. Locator 실패 감지
 2. AI가 새로운 Locator 탐색
 3. 새 Locator를 코드에 자동 업데이트
@@ -43,7 +52,7 @@ ISO 29119-4 기반 시나리오 테스팅을 기반으로 테스트 케이스를
 
 틀린 locator를 로그로 보여줍니다. 즉 1,2단계의 기능을 구현하고 수정방법을 제시합니다.
 
-Playwright 코드는 자동화에 대한 이해도를 높이고자 공식 문서로 개발하였습니다. AI 엔진(YOLO/OCR/NLP) 구현은 LLM을 사용해 진행하였으며, 임계값 설정 및 학습 데이터 공식 문서를 통해 학습하고 적용하였습니다.
+AI 엔진(YOLO/OCR/NLP/labeler) 코드 구현은 LLM을 사용해 진행하였으며, 임계값 설정 및 학습 데이터는 공식 문서를 통해 학습하고 적용하였습니다.
 
 ---
 ### 리포트 출력 예시
