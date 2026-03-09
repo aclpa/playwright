@@ -29,20 +29,67 @@ jobs:
       ADMIN_PASS: ${{ secrets.ADMIN_PASS }}
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
+
       - name: Run tests
-        run: pytest tests/playwright/test_${{ matrix.suite }}.py -s -v --browser chromium --tracing=retain-on-failure
-      - uses: actions/upload-artifact@v4
+        run: pytest tests/playwright/test_${{ matrix.suite }}.py -s -v --browser chromium --tracing=retain-on-failure --alluredir=allure-results
+
+      - name: Upload playwright traces
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-traces-${{ matrix.suite }}
           path: test-results/
+
+      - name: Upload allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-${{ matrix.suite }}
+          path: allure-results/
+
+  allure-report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
+
+      - name: Load Allure history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+        continue-on-error: true
+
+      - name: Generate Allure report
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history

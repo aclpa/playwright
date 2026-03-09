@@ -7,6 +7,8 @@ from urllib.error import URLError
 import pytest
 from typing import Generator
 from playwright.sync_api import Playwright, APIRequestContext
+import allure
+from playwright.sync_api import Page
 
 load_dotenv()
 
@@ -68,3 +70,17 @@ def api_request(playwright: Playwright) -> Generator[APIRequestContext, None, No
     )
     yield request_context #test 로 보내기 위해 정지하고 반환
     request_context.dispose()
+
+
+
+
+@pytest.fixture(autouse=True)
+def attach_screenshot_on_failure(page: Page, request):
+    yield
+    if request.node.rep_call.failed:
+        screenshot = page.screenshot()
+        allure.attach(
+            screenshot,
+            name="실패 스크린샷",
+            attachment_type=allure.attachment_type.PNG
+        )
